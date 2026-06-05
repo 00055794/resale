@@ -319,7 +319,6 @@
       <div style="font-size:12px;color:var(--muted);font-weight:600">Залоговая недвижимость HalykBank в Homebank</div>
     </div>
   </div>
-  <a class="report-switch" href="index.html" style="margin-left:auto;align-self:center;font-size:13px;font-weight:700;color:#008465;text-decoration:none;border:1px solid #008465;border-radius:8px;padding:8px 14px">← Обзорный дашборд</a>
   <div class="album-ctrl">
     <button class="arrow" id="prevPage" aria-label="Предыдущая страница">‹</button>
     <nav class="pages" aria-label="Страницы альбома">
@@ -340,7 +339,7 @@
       <h1>Кредитный портфель и доля залогов</h1>
     </div>
     <p class="lead">Залоговые кредиты: крупнее лимиты, ниже риск и потери при дефолте; неликвидный залог
-      требует отдельного процесса продажи. Кликните сегмент в треемапе, чтобы пересчитать долю залогов.</p>
+      требует отдельного процесса продажи.</p>
   </div>
 
   <div class="grid cols-4 kpirow">
@@ -378,7 +377,7 @@
 <!-- ============ PAGE 2: PROTOTYPE ============ -->
 <section class="page" id="page2">
   <span class="section-tag">Страница 2 · Прототип модели</span>
-  <h1>Кликабельный мобильный прототип</h1>
+  <h1>Прототип</h1>
   <p class="lead">Сценарий: вход через Homebank → каталог (список и карта) → карточка ·
     Обзор с AI-отчётом → Сравнение цен → калькулятор → «Оставить заявку» (аукцион) →
     напоминания и подписка → шеринг в WhatsApp. Тапайте по элементам прототипа
@@ -669,9 +668,6 @@
     </div>
   </div>
 
-  <p class="footnote">Прототип открывается двойным кликом по файлу без сервера и сборки. Фото объектов и карта
-    (OpenStreetMap) подгружаются с halykzalog.kz и OSM при наличии сети; офлайн фото берутся из локального
-    набора, карта недоступна. Все интеграции (SSO, CBS, krisha.kz, GenAI) подменены mock-адаптерами в server/app/integrations.py.</p>
 </section>
 
 <!-- ============ PAGE 3: REALITY ============ -->
@@ -689,7 +685,7 @@
     <div class="card kpi"><span class="label">Объектов в каталоге</span><span class="value">756</span><span class="delta up">+30% сделок · цель 6 мес</span></div>
     <div class="card kpi"><span class="label">Средний дисконт</span><span class="value">22.5%</span><span class="delta up">диапазон 15–35%</span></div>
     <div class="card kpi"><span class="label">Take rate · май 2026</span><span class="value">51%</span><span class="delta up">текущий месяц</span></div>
-    <div class="card kpi"><span class="label">Ожидаемый эффект</span><span class="value">≈ 240 млн ₸/год</span><span class="delta up">+50 сделок/мес · маржа 2%</span></div>
+    <div class="card kpi"><span class="label">Ожидаемый эффект · среднее</span><span class="value">≈ 1 080 млн ₸/год</span><span class="delta up">TR 49.1% · 225 сделок/мес · 90 млн ₸/мес</span></div>
   </div>
 
   <div class="p3grid">
@@ -1027,7 +1023,6 @@ function renderGauges(){
   const data = [
     {val:"+30%", sub:"рост сделок",   frac:.70, g:["#008465","#1aa07f"]},
     {val:"60",   sub:"дней · −50%",   frac:.50, g:["#008465","#ffc000"]},
-    {val:"+25%", sub:"заявки ипотеки",frac:.75, g:["#ffc000","#ffa800"]},
   ];
   root.innerHTML = data.map((d,i)=>`
     <div class="g">
