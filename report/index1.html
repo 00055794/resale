@@ -1,0 +1,1073 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ReSALE — Аналитический отчёт и прототип</title>
+<style>
+  :root{
+    --green:#008465; --green-dark:#006a51; --green-soft:rgba(0,132,101,.10);
+    --yellow:#ffc000; --yellow-dark:#d6a200; --yellow-soft:rgba(255,192,0,.18);
+    --ink:#0f172a; --muted:#64748b; --bg:#f6f8fb; --card:#ffffff; --border:#e6eaf0;
+    --radius:16px; --shadow:0 18px 50px rgba(15,23,42,.08);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);height:100%;overflow:hidden;
+    font-family:"Inter","Segoe UI",system-ui,-apple-system,Roboto,sans-serif;
+    -webkit-font-smoothing:antialiased}
+  a{color:var(--green);text-decoration:none}
+  .wrap{max-width:1480px;margin:0 auto;padding:10px 22px;height:100vh;display:flex;flex-direction:column;gap:10px}
+  header.top{display:flex;align-items:center;justify-content:space-between;gap:24px;
+    padding:11px 20px;background:var(--card);border:1px solid var(--border);
+    border-radius:var(--radius);box-shadow:var(--shadow);flex-shrink:0;z-index:20}
+  .brand{display:flex;align-items:center;gap:14px;font-weight:800;font-size:20px}
+  .logo{width:42px;height:42px;border-radius:12px;background:var(--green);position:relative;
+    box-shadow:0 6px 18px rgba(0,132,101,.35)}
+  .logo::before{content:"";position:absolute;inset:8px 10px 18px 8px;background:#fff;border-radius:4px}
+  .logo::after{content:"";position:absolute;right:6px;bottom:6px;width:12px;height:12px;
+    background:var(--yellow);border-radius:3px}
+  /* Album page buttons (top-right) */
+  nav.pages{display:flex;gap:8px;align-items:center}
+  nav.pages .pg{border:1px solid var(--border);background:#fff;width:40px;height:40px;border-radius:12px;
+    font-weight:800;color:var(--muted);cursor:pointer;font-size:15px;transition:all .15s}
+  nav.pages .pg:hover{border-color:var(--green);color:var(--green)}
+  nav.pages .pg.active{background:var(--green);color:#fff;border-color:var(--green);
+    box-shadow:0 8px 20px rgba(0,132,101,.3)}
+  nav.pages .pgname{font-size:13px;color:var(--muted);font-weight:600;margin-right:6px}
+  .album-ctrl{display:flex;align-items:center;gap:10px}
+  .arrow{border:1px solid var(--border);background:#fff;width:38px;height:38px;border-radius:10px;
+    cursor:pointer;font-size:16px;color:var(--ink)}
+  .arrow:disabled{opacity:.35;cursor:not-allowed}
+  h1{font-size:34px;margin:28px 0 6px;letter-spacing:-.02em}
+  h2{font-size:22px;margin:28px 0 12px;letter-spacing:-.01em}
+  h3{font-size:16px;margin:0 0 8px}
+  p.lead{color:var(--muted);max-width:880px;margin:0 0 12px;line-height:1.55}
+  .grid{display:grid;gap:18px}
+  .grid.cols-3{grid-template-columns:repeat(3,1fr)}
+  .grid.cols-2{grid-template-columns:repeat(2,1fr)}
+  .grid.cols-4{grid-template-columns:repeat(4,1fr)}
+  @media (max-width:720px){.grid.cols-3,.grid.cols-2,.grid.cols-4{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+    padding:20px;box-shadow:var(--shadow)}
+  .kpi{display:flex;flex-direction:column;gap:6px}
+  .kpi .label{color:var(--muted);font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+  .kpi .value{font-size:30px;font-weight:800;letter-spacing:-.02em}
+  .kpi .delta{font-size:13px;font-weight:700}
+  .delta.up{color:var(--green)} .delta.down{color:#b91c1c} .delta.flat{color:var(--muted)}
+  .pill{display:inline-block;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;
+    background:var(--green-soft);color:var(--green)}
+  .pill.y{background:var(--yellow-soft);color:#8a6500}
+  .pill.fact{background:var(--green);color:#fff}
+  .pill.ill{background:#eef2f7;color:#64748b}
+  .chart-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+  .legend{display:flex;gap:14px;font-size:12px;color:var(--muted);margin-top:6px;flex-wrap:wrap}
+  .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:middle}
+  .legend i.dash{width:16px;height:0;border-top:2px dashed #8a6500;border-radius:0}
+  .section-tag{display:inline-block;padding:4px 10px;border-radius:999px;background:var(--yellow-soft);
+    color:#8a6500;font-weight:700;font-size:12px;letter-spacing:.04em;text-transform:uppercase}
+  /* Stacked portfolio bar */
+  .pbar{height:46px;border-radius:12px;overflow:hidden;display:flex;box-shadow:var(--shadow)}
+  .pbar .seg-col{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;
+    font-size:13px;transition:width 1.1s cubic-bezier(.2,.7,.2,1)}
+  /* Tables */
+  table.sc,table.dt{width:100%;border-collapse:separate;border-spacing:0 6px}
+  table.sc th,table.sc td,table.dt th,table.dt td{padding:10px 12px;text-align:left;font-size:14px}
+  table.sc th,table.dt th{color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+  table.sc tbody tr,table.dt tbody tr{background:#fafcfd}
+  table.sc td:first-child,table.dt td:first-child{border-radius:10px 0 0 10px;font-weight:700}
+  table.sc td:last-child{border-radius:0 10px 10px 0;font-weight:700;color:var(--green)}
+  table.dt td:last-child{border-radius:0 10px 10px 0}
+  table.sc tbody tr.hl{background:var(--green-soft)}
+  table.dt tbody tr td.sec{color:var(--green);font-weight:700}
+  table.dt tbody tr td.uns{color:#b45309;font-weight:700}
+  /* Phone */
+  .stage{background:linear-gradient(160deg,#eef3f8,#fafcfe);border:1px solid var(--border);
+    border-radius:var(--radius);padding:28px;display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap}
+  .phone{width:300px;height:560px;border-radius:42px;background:#0f172a;padding:13px;
+    box-shadow:0 30px 80px rgba(15,23,42,.35);position:relative;flex-shrink:0}
+  .phone::before{content:"";position:absolute;top:18px;left:50%;transform:translateX(-50%);
+    width:120px;height:22px;background:#000;border-radius:14px;z-index:5}
+  .screen{width:100%;height:100%;background:#fff;border-radius:30px;overflow:hidden;position:relative}
+  .screens{position:relative;width:100%;height:100%}
+  .scr{position:absolute;inset:0;display:none;flex-direction:column;background:#fff}
+  .scr.active{display:flex;animation:fadeIn .35s ease}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .statusbar{height:34px;display:flex;align-items:center;justify-content:space-between;
+    padding:0 20px 0 22px;font-size:12px;font-weight:700;color:var(--ink)}
+  .appbar{background:var(--green);color:#fff;padding:12px 16px;display:flex;align-items:center;
+    justify-content:space-between;font-weight:700}
+  .appbar .back{cursor:pointer;background:rgba(255,255,255,.18);border:0;color:#fff;
+    width:30px;height:30px;border-radius:10px;font-size:16px}
+  .scrbody{flex:1;overflow:auto;padding:14px}
+  .scrbody::-webkit-scrollbar{width:6px} .scrbody::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:3px}
+  .tabbar{display:flex;justify-content:space-around;padding:10px 8px 14px;border-top:1px solid #eef2f7;background:#fff}
+  .tabbar button{flex:1;border:0;background:transparent;font-size:11px;color:var(--muted);
+    font-weight:600;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer}
+  .tabbar button.active{color:var(--green)}
+  .tabbar .dot{width:18px;height:18px;border-radius:6px;background:#cbd5e1}
+  .tabbar button.active .dot{background:var(--green)}
+  .ccard{border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:12px;cursor:pointer}
+  .ccard .ph{height:110px;background:linear-gradient(135deg,#cbd5e1,#94a3b8);display:flex;
+    align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px;position:relative}
+  .ccard .ph .chip{position:absolute;left:8px;top:8px;background:rgba(0,132,101,.92);color:#fff;
+    font-size:10px;font-weight:700;padding:3px 8px;border-radius:999px}
+  .ccard .ph .disc{position:absolute;right:8px;top:8px;background:var(--yellow);color:#1a1100;
+    font-size:10px;font-weight:800;padding:3px 8px;border-radius:999px}
+  .ccard .meta{padding:10px 12px}
+  .ccard .price{font-size:16px;font-weight:800}
+  .ccard .sub{color:var(--muted);font-size:12px;margin-top:2px}
+  .seg{display:inline-flex;background:#eef2f7;border-radius:10px;padding:3px;margin:8px 0}
+  .seg button{border:0;background:transparent;padding:6px 12px;border-radius:8px;font-size:12px;
+    font-weight:700;color:var(--muted);cursor:pointer}
+  .seg button.active{background:#fff;color:var(--green);box-shadow:0 2px 6px rgba(0,0,0,.06)}
+  .filt{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+  .filt span{font-size:11px;background:#eef2f7;color:var(--ink);padding:5px 9px;border-radius:999px;font-weight:600}
+  .mapview{height:280px;border-radius:14px;background:
+    radial-gradient(circle at 30% 40%,#dbeafe,transparent 50%),
+    radial-gradient(circle at 70% 60%,#dcfce7,transparent 55%),
+    linear-gradient(135deg,#e2e8f0,#f1f5f9);position:relative;border:1px solid var(--border)}
+  .pin{position:absolute;width:24px;height:24px;border-radius:50% 50% 50% 0;
+    background:var(--green);transform:rotate(-45deg);box-shadow:0 4px 10px rgba(0,0,0,.2);
+    animation:pinDrop .6s ease-out backwards}
+  .pin.y{background:var(--yellow)}
+  @keyframes pinDrop{from{transform:translateY(-30px) rotate(-45deg);opacity:0}to{opacity:1}}
+  .gallery{height:170px;border-radius:14px;background:linear-gradient(135deg,#94a3b8,#475569);
+    display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;margin-bottom:12px;position:relative}
+  .gallery .badge{position:absolute;left:10px;top:10px;background:rgba(0,132,101,.95);color:#fff;
+    padding:5px 10px;border-radius:999px;font-size:11px;font-weight:700}
+  .row{display:flex;justify-content:space-between;gap:8px;padding:8px 0;border-bottom:1px solid #eef2f7;font-size:13px}
+  .row.last{border:0}
+  .row .k{color:var(--muted)} .row .v{font-weight:700}
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
+  .compare .col{padding:12px;border-radius:12px}
+  .compare .bank{background:var(--green-soft);border:1px solid rgba(0,132,101,.25)}
+  .compare .mkt{background:#fef3c7;border:1px solid #fcd34d}
+  .compare .lbl{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase}
+  .compare .num{font-size:18px;font-weight:800;margin-top:4px}
+  .save{margin-top:6px;font-size:12px;color:var(--green);font-weight:700}
+  .cta{width:100%;padding:14px;border:0;border-radius:12px;background:var(--green);color:#fff;
+    font-weight:800;font-size:14px;cursor:pointer;margin-top:8px;box-shadow:0 10px 24px rgba(0,132,101,.3)}
+  .cta.y{background:var(--yellow);color:#1a1100;box-shadow:0 10px 24px rgba(255,192,0,.4)}
+  .cta.ghost{background:#fff;color:var(--green);border:1px solid var(--green)}
+  .ai{border-radius:14px;padding:14px;background:linear-gradient(135deg,#ecfdf5,#fef9c3);
+    border:1px solid #d1fae5;margin-bottom:10px}
+  .ai .h{display:flex;align-items:center;gap:8px;font-weight:800;color:var(--green-dark)}
+  .ai .h .d{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 1.4s infinite}
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.4)}}
+  .ai p{font-size:12.5px;line-height:1.55;color:#0b3b2e;margin:8px 0 0}
+  .calc-row{display:flex;justify-content:space-between;align-items:center;margin:10px 0}
+  .calc-row label{font-size:12px;color:var(--muted);font-weight:600}
+  .calc-row input{width:120px;padding:6px 8px;border:1px solid var(--border);border-radius:8px;
+    font-size:13px;text-align:right;font-weight:700}
+  .banktbl{width:100%;font-size:12px;margin-top:8px}
+  .banktbl th{text-align:left;color:var(--muted);font-weight:600;padding:6px 4px;border-bottom:1px solid #eef2f7}
+  .banktbl td{padding:8px 4px;border-bottom:1px solid #f1f5f9}
+  .banktbl tr.best td{background:var(--green-soft);font-weight:800;color:var(--green-dark)}
+  .banktbl tr.best td:first-child{border-radius:8px 0 0 8px}
+  .banktbl tr.best td:last-child{border-radius:0 8px 8px 0}
+  .countdown{display:flex;gap:8px;justify-content:center;margin:10px 0 14px}
+  .countdown .b{background:#0f172a;color:#fff;padding:8px 10px;border-radius:10px;
+    min-width:46px;text-align:center;font-weight:800}
+  .countdown .b small{display:block;font-size:9px;font-weight:600;color:#94a3b8;margin-top:2px}
+  .rem{display:flex;gap:10px;padding:12px;border:1px solid var(--border);border-radius:12px;margin-bottom:8px}
+  .rem .ic{width:32px;height:32px;border-radius:10px;background:var(--yellow-soft);
+    display:flex;align-items:center;justify-content:center;font-weight:800;color:#8a6500;flex-shrink:0}
+  .rem .tx{font-size:12.5px;line-height:1.45}
+  .rem .tx b{display:block;margin-bottom:2px;font-size:13px}
+  .stage-info{flex:1;min-width:280px}
+  .step-list{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+  .step{display:flex;gap:12px;padding:12px 14px;background:#fff;border:1px solid var(--border);
+    border-radius:12px;cursor:pointer;transition:all .15s}
+  .step:hover{transform:translateX(4px);border-color:var(--green)}
+  .step.active{background:var(--green-soft);border-color:var(--green)}
+  .step .n{width:28px;height:28px;border-radius:8px;background:#eef2f7;color:var(--muted);
+    font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .step.active .n{background:var(--green);color:#fff}
+  .step .t{font-weight:700;font-size:14px} .step .d{color:var(--muted);font-size:12px;margin-top:2px}
+  .page{display:none;flex:1;min-height:0}
+  .page.active{display:flex;flex-direction:column;animation:fadeIn .4s ease}
+  .footnote{color:var(--muted);font-size:12px;margin-top:8px}
+  @keyframes draw{from{stroke-dashoffset:1500}to{stroke-dashoffset:0}}
+  .anim-line{stroke-dasharray:1500;stroke-dashoffset:1500;animation:draw 1.6s ease-out forwards}
+  @keyframes bar-grow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+  .anim-bar{transform-origin:bottom;animation:bar-grow .9s cubic-bezier(.2,.7,.2,1) forwards}
+  @keyframes ringFill{from{stroke-dashoffset:var(--circ)}to{stroke-dashoffset:var(--dash)}}
+  .ring-fill{animation:ringFill 1.4s ease-out forwards}
+
+  /* ===== Album compact layout ===== */
+  .page.compact{gap:8px}
+  .page.compact h1{font-size:21px;margin:1px 0 0}
+  .page.compact p.lead{font-size:12px;line-height:1.4;margin:0;max-width:none}
+  .phead{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-shrink:0}
+  .phead .lead{max-width:600px}
+  .kpirow{flex-shrink:0}
+  .page.compact .kpi{padding:11px 14px;gap:3px}
+  .page.compact .kpi .label{font-size:10.5px}
+  .page.compact .kpi .value{font-size:21px}
+  .page.compact .kpi .delta{font-size:11px}
+  .page.compact .grid{gap:12px}
+  .flexcard{display:flex;flex-direction:column;min-height:0}
+  .flexcard>.chart-title{flex-shrink:0;margin-bottom:4px}
+  .flexcard>.legend{flex-shrink:0}
+  .flexcard>svg{flex:1;min-height:0;width:100%;height:100%}
+  .p1grid{display:grid;grid-template-columns:1.25fr .9fr 1.15fr;gap:12px;flex:2.4;min-height:0}
+  .p1heat{flex:1;min-height:0}
+  .p3grid{display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:12px;flex:1.85;min-height:0}
+  .p3bottom{display:grid;grid-template-columns:1.55fr 1.1fr;gap:12px;flex:1.25;min-height:0}
+  /* Page 2 fit */
+  #page2 h1{font-size:23px;margin:4px 0 2px}
+  #page2 p.lead{font-size:12.5px;line-height:1.45;margin:0 0 6px;max-width:none}
+  #page2 .stage{flex:1;min-height:0;overflow:auto;padding:18px 22px;gap:22px;margin-top:4px;align-items:stretch}
+  /* Page 2 — info column matches phone height, steps in 2 columns */
+  #page2 .stage-info{display:flex;flex-direction:column;align-self:stretch;max-width:430px}
+  #page2 .stage-info>.section-tag{font-size:10.5px;padding:3px 8px}
+  #page2 .stage-info>h3{margin-top:8px;font-size:13px;line-height:1.35}
+  #page2 .step-list{flex:1;display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;
+    gap:6px;margin-top:10px}
+  #page2 .step{padding:6px 9px;gap:8px;align-items:center;border-radius:10px}
+  #page2 .step .n{width:22px;height:22px;border-radius:6px;font-size:12px}
+  #page2 .step .t{font-size:12px} #page2 .step .d{font-size:10px;line-height:1.25;margin-top:1px}
+  #page2 .step:hover{transform:none;box-shadow:0 4px 12px rgba(15,23,42,.08)}
+  /* Apartment photo thumbnails (catalog) */
+  .ph .thumb{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+  .ccard .ph{color:transparent}
+  .ph .chip,.ph .disc{z-index:2}
+  .ph .addr{position:absolute;left:8px;bottom:7px;z-index:2;color:#fff;font-size:11px;font-weight:800;
+    text-shadow:0 1px 4px rgba(0,0,0,.55)}
+  .ph::after{content:"";position:absolute;inset:0;z-index:1;
+    background:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(0,0,0,.4))}
+  /* Object photo gallery */
+  .gallery{background:#475569;overflow:hidden}
+  .gallery .thumb{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+  .gallery .badge{z-index:3}
+  .gallery .count{position:absolute;right:10px;bottom:10px;z-index:3;background:rgba(15,23,42,.72);
+    color:#fff;font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px}
+  .gdots{display:flex;gap:6px;justify-content:center;margin:-4px 0 12px}
+  .gdots i{width:7px;height:7px;border-radius:50%;background:#cbd5e1}
+  .gdots i.on{background:var(--green);width:18px;border-radius:4px}
+  .gstrip{display:flex;gap:6px;margin:8px 0 12px}
+  .gstrip img{flex:1;height:48px;object-fit:cover;border-radius:8px;cursor:pointer;
+    border:2px solid transparent;transition:border-color .15s}
+  .gstrip img.on{border-color:var(--green)}
+  /* Google-style map */
+  .gmap{position:relative;height:280px;border-radius:14px;overflow:hidden;border:1px solid var(--border)}
+  .gmap svg{position:absolute;inset:0;width:100%;height:100%}
+  .gmark{position:absolute;transform:translate(-50%,-100%);background:#fff;color:var(--green-dark);
+    font-size:11px;font-weight:800;padding:4px 9px;border-radius:999px;white-space:nowrap;
+    box-shadow:0 4px 10px rgba(0,0,0,.28);border:1px solid #e2e8f0;cursor:pointer;
+    animation:pinDrop .5s ease-out backwards}
+  .gmark::after{content:"";position:absolute;left:50%;bottom:-5px;transform:translateX(-50%);
+    border:5px solid transparent;border-top-color:#fff}
+  .gmark.sel{background:var(--green);color:#fff;border-color:var(--green);z-index:4}
+  .gmark.sel::after{border-top-color:var(--green)}
+  .gmark.cluster{background:var(--green-dark);color:#fff;border-color:var(--green-dark)}
+  .gmark.cluster::after{border-top-color:var(--green-dark)}
+  .gmap .glabel{position:absolute;font-size:10px;font-weight:700;color:#7c8a99;letter-spacing:.02em;
+    transform:translate(-50%,-50%);pointer-events:none}
+  .gmap .gattr{position:absolute;right:6px;bottom:5px;font-size:9px;color:#5b6b7a;
+    background:rgba(255,255,255,.72);padding:1px 6px;border-radius:6px}
+  .gmap .gbtns{position:absolute;right:8px;top:8px;display:flex;flex-direction:column;gap:4px}
+  .gmap .gbtns b{width:26px;height:26px;background:#fff;border-radius:6px;box-shadow:0 2px 6px rgba(0,0,0,.2);
+    display:flex;align-items:center;justify-content:center;font-size:15px;color:#475569}
+  /* Treemap */
+  .treemap{position:relative;flex:1;min-height:0;margin-top:4px}
+  .tm-cell{position:absolute;border-radius:10px;color:#fff;padding:7px 9px;overflow:hidden;cursor:pointer;
+    display:flex;flex-direction:column;justify-content:flex-end;
+    transform:scale(.5);opacity:0;
+    transition:transform .7s cubic-bezier(.2,.7,.2,1),opacity .5s,box-shadow .15s}
+  .tm-cell.in{transform:scale(1);opacity:1}
+  .tm-cell:hover{box-shadow:inset 0 0 0 2px rgba(255,255,255,.65)}
+  .tm-cell.sel{box-shadow:inset 0 0 0 3px var(--yellow)}
+  .tm-cell .tm-name{font-size:11px;font-weight:700;opacity:.95}
+  .tm-cell .tm-val{font-size:17px;font-weight:800;line-height:1.1}
+  .tm-cell .tm-sub{font-size:10px;font-weight:600;opacity:.85}
+  /* Heatmap */
+  .heat{flex:1;min-height:0;display:grid;gap:5px;margin-top:4px}
+  .heat .hc{border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    color:#fff;font-weight:800;font-size:15px;opacity:0;transform:translateY(8px);
+    transition:opacity .45s,transform .45s}
+  .heat .hc.in{opacity:1;transform:none}
+  .heat .hc small{font-size:9px;font-weight:600;opacity:.85;margin-top:1px}
+  .heat .hl-row{display:flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--ink);padding-left:2px}
+  .heat .hh{color:var(--muted);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;
+    display:flex;align-items:center;justify-content:center}
+  /* Compact scenario table + gauges */
+  .page.compact table.sc{border-spacing:0 3px}
+  .page.compact table.sc th,.page.compact table.sc td{padding:4px 9px;font-size:11.5px}
+  .gaugewrap{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;flex:1;min-height:0;margin-top:4px}
+  .gaugewrap .g{display:flex;align-items:center;justify-content:center;min-height:0}
+  .gaugewrap .g svg{width:100%;height:100%}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <div class="brand"><div class="logo" aria-hidden="true"></div>
+    <div>ReSALE
+      <div style="font-size:12px;color:var(--muted);font-weight:600">Залоговая недвижимость HalykBank в Homebank</div>
+    </div>
+  </div>
+  <div class="album-ctrl">
+    <button class="arrow" id="prevPage" aria-label="Предыдущая страница">‹</button>
+    <nav class="pages" aria-label="Страницы альбома">
+      <span class="pgname" id="pgName">Портфель банка</span>
+      <button class="pg active" data-page="1" aria-label="Страница 1">1</button>
+      <button class="pg" data-page="2" aria-label="Страница 2">2</button>
+      <button class="pg" data-page="3" aria-label="Страница 3">3</button>
+    </nav>
+    <button class="arrow" id="nextPage" aria-label="Следующая страница">›</button>
+  </div>
+</header>
+
+<!-- ============ PAGE 1: BANK PORTFOLIO ============ -->
+<section class="page compact active" id="page1">
+  <div class="phead">
+    <div>
+      <span class="section-tag">Страница 1 · Портфель банка</span>
+      <h1>Кредитный портфель и доля залогов</h1>
+    </div>
+    <p class="lead">Залоговые кредиты: крупнее лимиты, ниже риск и потери при дефолте; неликвидный залог
+      требует отдельного процесса продажи. Кликните сегмент в треемапе, чтобы пересчитать долю залогов.</p>
+  </div>
+
+  <div class="grid cols-4 kpirow">
+    <div class="card kpi"><span class="label">Совокупный портфель</span><span class="value">≈ 9.4 трлн ₸</span><span class="delta flat">оценка · все сегменты</span></div>
+    <div class="card kpi"><span class="label">Залоговый портфель</span><span class="value">≈ 6.8 трлн ₸</span><span class="delta up">≈ 72% обеспечено</span></div>
+    <div class="card kpi"><span class="label">МСБ · портфель</span><span class="value">1 652.6 млрд ₸</span><span class="delta flat">факт · май 2026</span></div>
+    <div class="card kpi"><span class="label">МСБ · залоговые</span><span class="value">1 333.7 млрд ₸</span><span class="delta up">80.7% обеспечено</span></div>
+  </div>
+
+  <div class="p1grid">
+    <div class="card flexcard">
+      <div class="chart-title"><h3>Структура портфеля по сегментам</h3><span class="pill ill">треемап · оценка</span></div>
+      <div class="treemap" id="segTree" aria-label="Сегменты портфеля"></div>
+    </div>
+    <div class="card flexcard">
+      <div class="chart-title"><h3>Доля залогов</h3><span class="pill fact">факт</span></div>
+      <svg viewBox="0 0 220 220" id="donut" aria-label="Доля залогов"></svg>
+      <div class="legend">
+        <span><i style="background:#008465"></i>Залоговые</span>
+        <span><i style="background:#ffc000"></i>Необеспеченные</span>
+      </div>
+    </div>
+    <div class="card flexcard">
+      <div class="chart-title"><h3>Поток портфеля</h3><span class="pill">санкей</span></div>
+      <svg viewBox="0 0 320 220" id="sankey" aria-label="Поток портфеля по сегментам и обеспечению"></svg>
+    </div>
+  </div>
+
+  <div class="card flexcard p1heat">
+    <div class="chart-title"><h3>Качество кредитов · залоговые против необеспеченных</h3><span class="pill">тепловая карта · AR, TR, default, выдача, LGD</span></div>
+    <div class="heat" id="qualHeat" aria-label="Тепловая карта качества кредитов"></div>
+  </div>
+</section>
+
+<!-- ============ PAGE 2: PROTOTYPE ============ -->
+<section class="page" id="page2">
+  <span class="section-tag">Страница 2 · Прототип модели</span>
+  <h1>Кликабельный мобильный прототип</h1>
+  <p class="lead">Сценарий: вход через Homebank → каталог → карточка → AI-отчёт → калькулятор →
+    «Оставить заявку» (аукцион) → напоминания и подписка → шеринг в WhatsApp.
+    Тапайте по элементам прототипа или используйте шаги справа.</p>
+
+  <div class="stage">
+    <div class="phone" aria-label="Мобильный прототип">
+      <div class="screen">
+        <div class="screens" id="screens">
+          <!-- 1. Home / SSO -->
+          <div class="scr active" data-id="home">
+            <div class="statusbar"><span>9:41</span><span>● ●●</span></div>
+            <div class="appbar" style="background:#0f172a">Homebank<span style="font-weight:600;font-size:12px;opacity:.8">Сервисы</span></div>
+            <div class="scrbody" style="background:#f6f8fb">
+              <div style="background:linear-gradient(135deg,var(--green),var(--green-dark));color:#fff;padding:18px;border-radius:14px;margin-bottom:12px">
+                <div style="font-size:11px;font-weight:700;opacity:.85;letter-spacing:.05em">НОВОЕ В СЕРВИСАХ</div>
+                <div style="font-size:18px;font-weight:800;margin-top:4px">ReSALE</div>
+                <div style="font-size:12px;opacity:.9;margin-top:2px">Залоговая недвижимость со скидкой 15–35%</div>
+                <button class="cta y" style="margin-top:12px" data-go="catalog">Открыть каталог</button>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+                <div class="card" style="padding:12px"><div style="font-size:11px;color:var(--muted);font-weight:700">Объектов</div><div style="font-size:20px;font-weight:800">756</div></div>
+                <div class="card" style="padding:12px"><div style="font-size:11px;color:var(--muted);font-weight:700">Города</div><div style="font-size:20px;font-weight:800">12</div></div>
+              </div>
+              <div style="margin-top:12px;font-size:12px;color:var(--muted)">Вход через Halyk SSO. Регион берётся из геотега и ИИН.</div>
+            </div>
+          </div>
+
+          <!-- 2. Catalog list -->
+          <div class="scr" data-id="catalog">
+            <div class="statusbar"><span>9:41</span><span>● ●●</span></div>
+            <div class="appbar"><button class="back" data-go="home">‹</button><span>Каталог</span><span style="opacity:.8;font-size:12px" data-go="subscribe">Подписка</span></div>
+            <div class="scrbody">
+              <div class="seg" role="tablist">
+                <button class="active" data-seg="list">Список</button>
+                <button data-seg="map">Карта</button>
+              </div>
+              <div class="filt">
+                <span>Алматы</span><span>2 комн</span><span>до 30 млн</span><span>доход 800k</span>
+              </div>
+              <div id="catalogList">
+                <div class="ccard" data-go="object"><div class="ph">
+                  <img class="thumb" src="assets/flats/mametova-1.jpg" alt="Маметовой, 47/51" loading="lazy" />
+                  <div class="chip">Проверено банком</div><div class="disc">-22%</div><div class="addr">Алматы, Маметовой, 47/51</div></div>
+                  <div class="meta"><div class="price">56 674 600 ₸</div><div class="sub">3 комн · 72.6 м² · Алматы</div></div></div>
+                <div class="ccard" data-go="object"><div class="ph">
+                  <img class="thumb" src="assets/flats/kashgarskaya.jpg" alt="Кашгарская, 3" loading="lazy" />
+                  <div class="chip">Проверено банком</div><div class="disc">-24%</div><div class="addr">Алматы, Кашгарская, 3</div></div>
+                  <div class="meta"><div class="price">46 071 800 ₸</div><div class="sub">3 комн · 57.5 м² · Алматы</div></div></div>
+                <div class="ccard" data-go="object"><div class="ph">
+                  <img class="thumb" src="assets/flats/zhetysu.jpg" alt="мкр. Жетысу-4, 5" loading="lazy" />
+                  <div class="chip">Проверено банком</div><div class="disc">-21%</div><div class="addr">Алматы, мкр. Жетысу-4, 5</div></div>
+                  <div class="meta"><div class="price">44 638 200 ₸</div><div class="sub">2 комн · 58.9 м² · Алматы</div></div></div>
+                <div class="ccard" data-go="object"><div class="ph">
+                  <img class="thumb" src="assets/flats/sibirskaya.jpg" alt="Сибирская, 89" loading="lazy" />
+                  <div class="chip">Проверено банком</div><div class="disc">-19%</div><div class="addr">Павлодар, Сибирская, 89</div></div>
+                  <div class="meta"><div class="price">23 594 000 ₸</div><div class="sub">3 комн · 65.8 м² · Павлодар</div></div></div>
+                <div class="ccard" data-go="object"><div class="ph">
+                  <img class="thumb" src="assets/flats/vodnik.jpg" alt="мкр. Водник-3, 97" loading="lazy" />
+                  <div class="chip">Имущество банка</div><div class="disc">-27%</div><div class="addr">Илийский р-н, Водник-3, 97</div></div>
+                  <div class="meta"><div class="price">14 000 000 ₸</div><div class="sub">1 комн · 40.2 м² · Алматинская обл</div></div></div>
+                <div class="ccard" data-go="object"><div class="ph">
+                  <img class="thumb" src="assets/flats/abaya.jpg" alt="Абая, 110/1" loading="lazy" />
+                  <div class="chip">Проверено банком</div><div class="disc">-23%</div><div class="addr">Павлодар, Абая, 110/1</div></div>
+                  <div class="meta"><div class="price">99 283 000 ₸</div><div class="sub">7 комн · 272.1 м² · евроремонт</div></div></div>
+              </div>
+
+              <div id="catalogMap" style="display:none">
+                <div class="gmap">
+                  <svg viewBox="0 0 320 280" preserveAspectRatio="xMidYMid slice">
+                    <rect width="320" height="280" fill="#eaf0f2"/>
+                    <path d="M0 0 H126 V64 Q92 92 58 80 Q22 70 0 96 Z" fill="#cdeccb"/>
+                    <path d="M214 -10 C 238 60, 198 118, 250 188 C 272 232, 250 290, 305 296 L320 296 L320 -10 Z" fill="#a9dcf0"/>
+                    <g fill="#e2e8ec">
+                      <rect x="18" y="120" width="60" height="40" rx="3"/><rect x="90" y="120" width="50" height="40" rx="3"/>
+                      <rect x="18" y="172" width="50" height="46" rx="3"/><rect x="80" y="172" width="60" height="46" rx="3"/>
+                      <rect x="152" y="120" width="42" height="38" rx="3"/><rect x="152" y="170" width="46" height="48" rx="3"/>
+                      <rect x="36" y="232" width="72" height="40" rx="3"/>
+                    </g>
+                    <g stroke="#ffffff" stroke-width="10" fill="none" stroke-linecap="round">
+                      <path d="M0 110 H320"/><path d="M0 165 H205"/><path d="M0 225 H150"/>
+                      <path d="M85 0 V280"/><path d="M148 100 V280"/>
+                    </g>
+                    <g stroke="#fde68a" stroke-width="7" fill="none" stroke-linecap="round">
+                      <path d="M0 110 H320"/><path d="M148 100 V280"/>
+                    </g>
+                  </svg>
+                  <div class="glabel" style="left:38%;top:36%">пр. Аль-Фараби</div>
+                  <div class="glabel" style="left:64%;top:43%;transform:translate(-50%,-50%) rotate(90deg)">ул. Сатпаева</div>
+                  <div class="gmark sel" data-go="object" style="left:24%;top:47%">56.7 млн ₸</div>
+                  <div class="gmark" data-go="object" style="left:47%;top:40%">46.1 млн ₸</div>
+                  <div class="gmark" data-go="object" style="left:64%;top:60%">44.6 млн ₸</div>
+                  <div class="gmark" data-go="object" style="left:33%;top:73%">23.6 млн ₸</div>
+                  <div class="gmark" data-go="object" style="left:74%;top:33%">14.0 млн ₸</div>
+                  <div class="gmark" data-go="object" style="left:18%;top:62%">99.3 млн ₸</div>
+                  <div class="gmark cluster" style="left:55%;top:82%">+18 объектов</div>
+                  <div class="gbtns"><b>+</b><b>−</b></div>
+                  <div class="gattr">Карта · Google</div>
+                </div>
+                <div class="footnote" style="margin-top:8px">Google Maps · 756 объектов с кластеризацией по цене и району</div>
+              </div>
+
+            </div>
+            <div class="tabbar">
+              <button class="active" data-go="catalog"><span class="dot"></span>Каталог</button>
+              <button data-go="calc"><span class="dot"></span>Калькулятор</button>
+              <button data-go="reminders"><span class="dot"></span>Напоминания</button>
+              <button data-go="home"><span class="dot"></span>Профиль</button>
+            </div>
+          </div>
+
+          <!-- 3. Object card -->
+          <div class="scr" data-id="object">
+            <div class="statusbar"><span>9:41</span><span>● ●●</span></div>
+            <div class="appbar"><button class="back" data-go="catalog">‹</button><span>Объект</span><span data-go="share" style="font-size:18px;cursor:pointer">⇪</span></div>
+            <div class="scrbody">
+              <div class="gallery">
+                <img class="thumb" id="objMain" src="assets/flats/mametova-1.jpg" alt="Алматы, Маметовой, 47/51" />
+                <div class="badge">Проверено банком</div>
+                <div class="count">1 / 3 фото</div>
+              </div>
+              <div class="gstrip" id="objStrip">
+                <img src="assets/flats/mametova-1.jpg" class="on" alt="фото 1" />
+                <img src="assets/flats/mametova-2.jpg" alt="фото 2" />
+                <img src="assets/flats/mametova-3.jpg" alt="фото 3" />
+              </div>
+              <div class="compare">
+                <div class="col bank"><div class="lbl">Цена банка</div><div class="num">56 674 600 ₸</div></div>
+                <div class="col mkt"><div class="lbl">Медиана krisha.kz</div><div class="num">72 660 000 ₸</div></div>
+              </div>
+              <div class="save">Экономия 15 985 400 ₸ (22% дисконт)</div>
+              <div class="row"><span class="k">Тип</span><span class="v">3 комн · 72.6 м²</span></div>
+              <div class="row"><span class="k">Этаж</span><span class="v">2 из 9</span></div>
+              <div class="row"><span class="k">Год</span><span class="v">1971 · чистовая</span></div>
+              <div class="row last"><span class="k">Адрес</span><span class="v">Алматы, Алмалинский р-н</span></div>
+              <button class="cta" data-go="ai">Открыть AI-отчёт</button>
+              <button class="cta ghost" data-go="calc">Калькулятор ипотеки</button>
+              <button class="cta y" data-go="auction">Оставить заявку (аукцион)</button>
+            </div>
+          </div>
+
+          <!-- 4. AI report -->
+          <div class="scr" data-id="ai">
+            <div class="statusbar"><span>9:41</span><span>● ●●</span></div>
+            <div class="appbar"><button class="back" data-go="object">‹</button><span>AI-отчёт</span><span></span></div>
+            <div class="scrbody">
+              <div class="ai">
+                <div class="h"><span class="d"></span>GenAI · персонализация под профиль</div>
+                <p>Объект Алматы, Маметовой, 47/51. Цена банка 56 674 600 ₸, рынок 72 660 000 ₸.
+                  Дисконт 22%. При горизонте 5 лет ожидаемая доходность от перепродажи
+                  18–25% годовых в базовом сценарии. Аренда покрывает 60–75% ипотечного платежа.</p>
+              </div>
+              <div class="card" style="padding:12px">
+                <h3 style="margin:0 0 6px">Инвестиционные метрики</h3>
+                <div class="row"><span class="k">IRR (5 лет)</span><span class="v" style="color:var(--green)">21.4%</span></div>
+                <div class="row"><span class="k">Cap rate</span><span class="v">7.2%</span></div>
+                <div class="row"><span class="k">Аренда к платежу</span><span class="v">68%</span></div>
+                <div class="row last"><span class="k">Риск-скор</span><span class="v">Низкий</span></div>
+              </div>
+              <button class="cta" data-go="calc">К калькулятору</button>
+            </div>
+          </div>
+
+          <!-- 5. Calculator -->
+          <div class="scr" data-id="calc">
+            <div class="statusbar"><span>9:41</span><span>● ●●</span></div>
+            <div class="appbar"><button class="back" data-go="object">‹</button><span>Калькулятор</span><span></span></div>
+            <div class="scrbody">
+              <div class="card" style="padding:12px">
+                <div class="calc-row"><label>Стоимость</label><input value="56 674 600" readonly /></div>
+                <div class="calc-row"><label>Первый взнос</label><input value="11 334 920" readonly /></div>
+                <div class="calc-row"><label>Срок, мес</label><input value="240" readonly /></div>
+                <div class="calc-row"><label>Доход</label><input value="800 000" readonly /></div>
+                <div class="calc-row"><label>Со-заёмщик</label><input value="400 000" readonly /></div>
+              </div>
+              <h3 style="margin:14px 0 6px">Сравнение банков</h3>
+              <table class="banktbl">
+                <thead><tr><th>Банк</th><th>Ставка</th><th>Платёж/мес</th></tr></thead>
+                <tbody>
+                  <tr class="best"><td>HalykBank</td><td>16.5%</td><td>647 900 ₸</td></tr>
+                  <tr><td>Kaspi</td><td>19.7%</td><td>737 200 ₸</td></tr>
+                  <tr><td>Forte</td><td>18.9%</td><td>714 600 ₸</td></tr>
+                  <tr><td>BCC</td><td>19.3%</td><td>725 800 ₸</td></tr>
+                  <tr><td>Jusan</td><td>20.5%</td><td>760 300 ₸</td></tr>
+                </tbody>
+              </table>
+              <div class="footnote" style="margin-top:6px">HalykBank выгоднее на 89 300 ₸/мес.</div>
+              <button class="cta" data-go="auction">Оставить заявку (аукцион)</button>
+            </div>
+          </div>
+
+          <!-- 6. Auction -->
+          <div class="scr" data-id="auction">
+            <div class="statusbar"><span>9:41</span><span>● ●●</span></div>
+            <div class="appbar"><button class="back" data-go="object">‹</button><span>Аукцион</span><span></span></div>
+            <div class="scrbody">
+              <div class="card" style="padding:14px;text-align:center">
+                <div style="font-size:12px;color:var(--muted);font-weight:700">ДО СТАРТА АУКЦИОНА</div>
+                <div class="countdown">
+                  <div class="b">07<small>дней</small></div><div class="b">14<small>часов</small></div><div class="b">22<small>мин</small></div>
+                </div>
+                <div style="font-size:12px;color:var(--muted)">Среднее ожидание 7 дней · обычно 2 участника</div>
+              </div>
+              <div class="card" style="padding:12px;margin-top:10px">
+                <div class="calc-row"><label>Стартовая цена</label><input value="56 674 600" readonly /></div>
+                <div class="calc-row"><label>Ваша ставка</label><input value="57 900 000" readonly /></div>
+                <div style="font-size:12px;color:var(--green);font-weight:700;margin-top:6px">
+                  Если не выиграете: 2% скидка на повторное участие в следующем аукционе.
+                </div>
+              </div>
+              <button class="cta y" data-go="success">Оставить заявку</button>
+              <button class="cta ghost" data-go="subscribe" style="margin-top:8px">Подписаться на похожие</button>
+            </div>
+          </div>
+
+          <!-- 7. Success / share -->
+          <div class="scr" data-id="success">
+            <div class="statusbar"><span>9:41</span><span>● ●●</span></div>
+            <div class="appbar"><button class="back" data-go="catalog">‹</button><span>Заявка принята</span><span></span></div>
+            <div class="scrbody" style="text-align:center">
+              <div style="width:80px;height:80px;border-radius:50%;background:var(--green-soft);
+                  margin:24px auto 12px;display:flex;align-items:center;justify-content:center;
+                  font-size:36px;color:var(--green);font-weight:800">✓</div>
+              <h3>Заявка №A-29481</h3>
+              <p style="color:var(--muted);font-size:13px">Параллельно создан черновик ипотечной заявки в CBS.
+                Менеджер свяжется до старта аукциона.</p>
+              <button class="cta" data-go="share">Поделиться объектом</button>
+              <button class="cta ghost" data-go="reminders" style="margin-top:8px">Мои напоминания</button>
+            </div>
+          </div>
+
+          <!-- 8. Share -->
+          <div class="scr" data-id="share">
+            <div class="statusbar"><span>9:41</span><span>● ●●</span></div>
+            <div class="appbar"><button class="back" data-go="object">‹</button><span>Поделиться</span><span></span></div>
+            <div class="scrbody">
+              <div class="card" style="padding:14px">
+                <h3>Алматы, Маметовой, 47/51</h3>
+                <div style="color:var(--muted);font-size:13px">56 674 600 ₸ · дисконт 22% · Halyk проверил</div>
+              </div>
+              <button class="cta" style="background:#25D366;margin-top:10px" data-go="success">WhatsApp</button>
+              <button class="cta ghost" data-go="success">Скопировать ссылку</button>
+              <button class="cta ghost" data-go="success">Telegram</button>
+            </div>
+          </div>
+
+          <!-- 9. Reminders -->
+          <div class="scr" data-id="reminders">
+            <div class="statusbar"><span>9:41</span><span>● ●●</span></div>
+            <div class="appbar"><button class="back" data-go="catalog">‹</button><span>Напоминания</span><span></span></div>
+            <div class="scrbody">
+              <div class="rem"><div class="ic">⏰</div><div class="tx"><b>Аукцион стартует через 7 дней</b>Алматы, Маметовой, 47/51 · 2 участника</div></div>
+              <div class="rem"><div class="ic">★</div><div class="tx"><b>Новый объект по подписке</b>Алматы, до 30 млн, 2 комн</div></div>
+              <div class="rem"><div class="ic">↺</div><div class="tx"><b>Повторное участие со скидкой 2%</b>ул. Сыганак, 54</div></div>
+              <div class="rem"><div class="ic">i</div><div class="tx"><b>Среднее ожидание аукциона 7 дней</b>по вашему сегменту</div></div>
+            </div>
+          </div>
+
+          <!-- 10. Subscribe -->
+          <div class="scr" data-id="subscribe">
+            <div class="statusbar"><span>9:41</span><span>● ●●</span></div>
+            <div class="appbar"><button class="back" data-go="catalog">‹</button><span>Подписка на новые объекты</span><span></span></div>
+            <div class="scrbody">
+              <div class="card" style="padding:12px">
+                <div class="calc-row"><label>Город</label><input value="Алматы" readonly /></div>
+                <div class="calc-row"><label>Цена до</label><input value="30 000 000 ₸" readonly /></div>
+                <div class="calc-row"><label>Комнат</label><input value="2" readonly /></div>
+                <div class="calc-row"><label>Срок</label><input value="3 месяца" readonly /></div>
+              </div>
+              <div style="font-size:12px;color:var(--muted);margin-top:8px">Push-уведомления при появлении новых объектов в сегменте.</div>
+              <button class="cta" data-go="reminders">Подписаться</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-info">
+      <span class="section-tag">Сценарий пользователя</span>
+      <h3 style="margin-top:10px">Открывайте экраны по шагам или тапайте по элементам в телефоне.</h3>
+      <div class="step-list" id="steps">
+        <div class="step active" data-step="home"><div class="n">1</div><div><div class="t">Homebank · Сервисы</div><div class="d">SSO, баннер ReSALE</div></div></div>
+        <div class="step" data-step="catalog"><div class="n">2</div><div><div class="t">Каталог: список и карта</div><div class="d">Фильтры по доходу, ИИН-региону, геотегу</div></div></div>
+        <div class="step" data-step="object"><div class="n">3</div><div><div class="t">Карточка объекта</div><div class="d">Проверено банком, сравнение с krisha.kz</div></div></div>
+        <div class="step" data-step="ai"><div class="n">4</div><div><div class="t">AI-отчёт</div><div class="d">Персональные метрики и риск</div></div></div>
+        <div class="step" data-step="calc"><div class="n">5</div><div><div class="t">Калькулятор</div><div class="d">Со-заёмщик, сравнение банков</div></div></div>
+        <div class="step" data-step="auction"><div class="n">6</div><div><div class="t">Аукцион</div><div class="d">Оставить заявку, скидка на повтор</div></div></div>
+        <div class="step" data-step="success"><div class="n">7</div><div><div class="t">Заявка принята</div><div class="d">CBS-черновик ипотеки создан</div></div></div>
+        <div class="step" data-step="share"><div class="n">8</div><div><div class="t">Шеринг</div><div class="d">WhatsApp, Telegram, ссылка</div></div></div>
+        <div class="step" data-step="reminders"><div class="n">9</div><div><div class="t">Напоминания</div><div class="d">Старт аукциона, новые объекты</div></div></div>
+        <div class="step" data-step="subscribe"><div class="n">10</div><div><div class="t">Подписка 2–3 мес</div><div class="d">По городу и ценовому сегменту</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <p class="footnote">Прототип работает офлайн: открывается двойным кликом по файлу без сервера и сборки.
+    Все интеграции (SSO, CBS, Google Maps, krisha.kz, GenAI) подменены mock-адаптерами в server/app/integrations.py.</p>
+</section>
+
+<!-- ============ PAGE 3: REALITY ============ -->
+<section class="page compact" id="page3">
+  <div class="phead">
+    <div>
+      <span class="section-tag">Страница 3 · Реальность</span>
+      <h1>Объекты, дисконт, доход и эффект</h1>
+    </div>
+    <p class="lead">756 объектов на балансе банка, дисконт 15–35% к рынку, прямой путь к ипотеке и аукциону.
+      Формула: сделки = заявки × P(победы) × take rate. Источник: halykzalog.kz. MVP: квартиры.</p>
+  </div>
+
+  <div class="grid cols-4 kpirow">
+    <div class="card kpi"><span class="label">Объектов в каталоге</span><span class="value">756</span><span class="delta up">+30% сделок · цель 6 мес</span></div>
+    <div class="card kpi"><span class="label">Средний дисконт</span><span class="value">22.5%</span><span class="delta up">диапазон 15–35%</span></div>
+    <div class="card kpi"><span class="label">Take rate · май 2026</span><span class="value">51%</span><span class="delta up">текущий месяц</span></div>
+    <div class="card kpi"><span class="label">Ожидаемый эффект</span><span class="value">≈ 240 млн ₸/год</span><span class="delta up">+50 сделок/мес · маржа 2%</span></div>
+  </div>
+
+  <div class="p3grid">
+    <div class="card flexcard">
+      <div class="chart-title"><h3>Take rate ипотеки · 13 мес</h3><span class="pill">клокмап</span></div>
+      <svg viewBox="0 0 300 300" id="trClock" aria-label="Take rate clockmap"></svg>
+      <div class="legend">
+        <span><i style="background:#008465"></i>помесячно</span>
+        <span><i class="dash"></i>среднее 49.1%</span>
+        <span><i style="background:#0f172a"></i>макс 68.5%</span>
+        <span><i style="background:#ffc000"></i>текущее 51%</span>
+      </div>
+    </div>
+    <div class="card flexcard">
+      <div class="chart-title"><h3>Распределение дисконта</h3><span class="pill y">15–35%</span></div>
+      <div class="treemap" id="discTree" aria-label="Распределение дисконта"></div>
+    </div>
+    <div class="card flexcard">
+      <div class="chart-title"><h3>Доход по сценариям</h3><span class="pill">млн ₸/год</span></div>
+      <svg viewBox="0 0 400 260" id="scBars" aria-label="Доход по сценариям"></svg>
+      <div class="legend">
+        <span><i style="background:#94a3b8"></i>Минимум</span>
+        <span><i style="background:#008465"></i>Среднее</span>
+        <span><i style="background:#0f172a"></i>Максимум</span>
+        <span><i style="background:#ffc000"></i>Текущее</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="p3bottom">
+    <div class="card flexcard">
+      <div class="chart-title"><h3>Сценарии эффекта по take rate</h3><span class="pill">мин 4.08% · среднее 49.1% · макс 68.53% · текущее 51%</span></div>
+      <table class="sc" id="scenarios">
+        <thead><tr><th>Сценарий</th><th>Take rate</th><th>Сделок/мес</th><th>Доход/мес</th><th>Доход/год</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="card flexcard">
+      <div class="chart-title"><h3>Целевые KPI · 6 мес</h3><span class="pill y">цель</span></div>
+      <div class="gaugewrap" id="gauges" aria-label="Целевые KPI"></div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<script>
+// ---------- Data ----------
+const takerate = [
+  ["May 2025",.556],["Jun 2025",.3485],["Jul 2025",.0408],["Aug 2025",.2669],
+  ["Sep 2025",.6644],["Oct 2025",.5425],["Nov 2025",.6655],["Dec 2025",.6774],
+  ["Jan 2026",.6853],["Feb 2026",.4751],["Mar 2026",.4477],["Apr 2026",.5029],["May 2026",.51]
+];
+const trVals = takerate.map(d=>d[1]);
+const TR = {
+  min: Math.min(...trVals),
+  max: Math.max(...trVals),
+  avg: trVals.reduce((a,b)=>a+b,0)/trVals.length,
+  current: trVals[trVals.length-1]
+};
+const discBuckets = [
+  ["10–15%",6],["15–20%",18],["20–25%",34],["25–30%",26],["30–35%",12],["35–40%",4]
+];
+
+// ---------- Effect scenarios (min / average / maximum / current TR) ----------
+function effectScenarios({apps=1271, leakage=.10, p_win=.40, loan=20_000_000, margin=.02}={}){
+  const req = apps*(1-leakage);
+  const build = (name,tr)=>{
+    const t = Math.max(0,Math.min(1,tr));
+    const d = Math.round(req*p_win*t);
+    const mRev = d*loan*margin;
+    return {name, tr:t, disb:d, mRev, yRev:mRev*12};
+  };
+  return [
+    build("Минимум", TR.min),
+    build("Среднее", TR.avg),
+    build("Максимум", TR.max),
+    build("Текущее (май 2026)", TR.current),
+  ];
+}
+const fmt = n => new Intl.NumberFormat("ru-KZ").format(Math.round(n));
+const fmtM = n => (n/1_000_000).toFixed(1)+" млн ₸";
+const raf = cb => requestAnimationFrame(()=>requestAnimationFrame(cb));
+
+// Segment portfolio meta (drill-down source)
+const segMeta = {
+  corp:   {name:"Крупный бизнес", share:46, color:"#006a51", portfolio:"≈ 4.3 трлн ₸", sec:.78,  note:"оценка"},
+  sme:    {name:"МСБ",            share:28, color:"#008465", portfolio:"1 652.6 млрд ₸", sec:.807, note:"факт · май 2026"},
+  retail: {name:"Розница",        share:26, color:"#ffc000", portfolio:"≈ 2.4 трлн ₸", sec:.61,  note:"оценка"},
+};
+
+// ---------- Album navigation ----------
+const pageNames = {1:"Портфель банка",2:"Прототип модели",3:"Реальность"};
+let currentPage = 1;
+function showPage(n){
+  currentPage = Math.max(1,Math.min(3,n));
+  document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active", p.id==="page"+currentPage));
+  document.querySelectorAll("nav.pages .pg").forEach(b=>b.classList.toggle("active", +b.dataset.page===currentPage));
+  document.getElementById("pgName").textContent = pageNames[currentPage];
+  document.getElementById("prevPage").disabled = currentPage===1;
+  document.getElementById("nextPage").disabled = currentPage===3;
+  if(currentPage===1) renderPage1();
+  if(currentPage===3) renderPage3();
+}
+document.querySelectorAll("nav.pages .pg").forEach(b=>b.addEventListener("click",()=>showPage(+b.dataset.page)));
+document.getElementById("prevPage").addEventListener("click",()=>showPage(currentPage-1));
+document.getElementById("nextPage").addEventListener("click",()=>showPage(currentPage+1));
+document.addEventListener("keydown",e=>{
+  if(e.key==="ArrowLeft") showPage(currentPage-1);
+  if(e.key==="ArrowRight") showPage(currentPage+1);
+});
+
+// ================= PAGE 1 =================
+function renderPage1(){ renderTreemap(); renderDonut("all"); renderSankey(); renderHeat(); }
+
+// Treemap: portfolio structure by segment (clickable drill-down)
+function renderTreemap(){
+  const root = document.getElementById("segTree"); if(!root) return;
+  root.innerHTML = "";
+  const {corp,sme,retail} = segMeta;
+  const leftW = corp.share, rightW = 100-leftW, rTot = sme.share+retail.share;
+  const cells = [
+    {k:"corp",   x:0,     y:0,                       w:leftW,  h:100},
+    {k:"sme",    x:leftW, y:0,                       w:rightW, h:sme.share/rTot*100},
+    {k:"retail", x:leftW, y:sme.share/rTot*100,      w:rightW, h:retail.share/rTot*100},
+  ];
+  cells.forEach((c,i)=>{
+    const m = segMeta[c.k];
+    const el = document.createElement("div");
+    el.className = "tm-cell"; el.dataset.seg = c.k;
+    el.style.left = c.x+"%"; el.style.top = c.y+"%";
+    el.style.width = "calc("+c.w+"% - 6px)"; el.style.height = "calc("+c.h+"% - 6px)";
+    el.style.margin = "3px"; el.style.background = m.color;
+    if(m.color==="#ffc000") el.style.color = "#1a1100";
+    el.innerHTML = `<div class="tm-name">${m.name}</div><div class="tm-val">${m.share}%</div><div class="tm-sub">${m.portfolio}</div>`;
+    el.addEventListener("click",()=>{
+      root.querySelectorAll(".tm-cell").forEach(x=>x.classList.remove("sel"));
+      el.classList.add("sel"); renderDonut(c.k);
+    });
+    root.appendChild(el);
+    raf(()=>setTimeout(()=>el.classList.add("in"), i*120));
+  });
+}
+
+// Donut: collateral share (animated), updates on treemap click
+function renderDonut(key){
+  const svg = document.getElementById("donut"); if(!svg) return;
+  const sec = key==="all" ? .72 : segMeta[key].sec;
+  const label = key==="all" ? "все сегменты" : segMeta[key].name;
+  const cx=110, cy=110, r=70, sw=26, C=2*Math.PI*r;
+  let g = `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#ffc000" stroke-width="${sw}"/>`;
+  g += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#008465" stroke-width="${sw}"
+          stroke-dasharray="${C}" stroke-dashoffset="${C}" transform="rotate(-90 ${cx} ${cy})">
+          <animate attributeName="stroke-dashoffset" from="${C}" to="${(C*(1-sec)).toFixed(1)}" dur="1.1s" fill="freeze"
+            calcMode="spline" keySplines="0.2 0.7 0.2 1" keyTimes="0;1"/></circle>`;
+  g += `<text x="${cx}" y="${cy-2}" text-anchor="middle" font-size="30" font-weight="800" fill="#0f172a">${(sec*100).toFixed(1)}%</text>`;
+  g += `<text x="${cx}" y="${cy+18}" text-anchor="middle" font-size="11" font-weight="600" fill="#64748b">залоговые · ${label}</text>`;
+  svg.innerHTML = g;
+}
+
+// Sankey: portfolio segments -> secured / unsecured
+function renderSankey(){
+  const svg = document.getElementById("sankey"); if(!svg) return;
+  const W=320, H=220, padTop=14, gap=12;
+  const segs = [["corp",segMeta.corp],["sme",segMeta.sme],["retail",segMeta.retail]];
+  const total = segs.reduce((a,[,m])=>a+m.share,0);
+  const lScale = (H-padTop*2-gap*2)/total;
+  let y = padTop; const left = {};
+  segs.forEach(([k,m])=>{ const h=m.share*lScale; left[k]={y,h,m}; y+=h+gap; });
+  let secTot=0, unsTot=0;
+  segs.forEach(([,m])=>{ secTot+=m.share*m.sec; unsTot+=m.share*(1-m.sec); });
+  const rScale = (H-padTop*2-gap)/(secTot+unsTot);
+  const right = { sec:{y:padTop,h:secTot*rScale}, uns:{y:padTop+secTot*rScale+gap,h:unsTot*rScale} };
+  const lx=10, lw=13, rx=W-23, rw=13;
+  let g="", li=0, secCur=right.sec.y, unsCur=right.uns.y;
+  segs.forEach(([k,m])=>{
+    const L = left[k]; let lc = L.y;
+    [["sec",m.sec,"#008465"],["uns",1-m.sec,"#ffc000"]].forEach(([side,frac,col])=>{
+      const lh = m.share*frac*lScale, rh = m.share*frac*rScale;
+      const x1 = lx+lw, y1 = lc+lh/2, x2 = rx, y2 = (side==="sec"?secCur:unsCur)+rh/2, mx=(x1+x2)/2;
+      const sw = Math.max(2, Math.min(lh,rh));
+      const len = Math.hypot(x2-x1,y2-y1)+80;
+      g += `<path d="M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}" fill="none" stroke="${col}"
+              stroke-opacity=".32" stroke-width="${sw.toFixed(1)}" stroke-linecap="butt"
+              stroke-dasharray="${len.toFixed(0)}" stroke-dashoffset="${len.toFixed(0)}">
+              <animate attributeName="stroke-dashoffset" from="${len.toFixed(0)}" to="0" dur="1s" begin="${(li*0.1).toFixed(2)}s" fill="freeze"/></path>`;
+      lc += lh; if(side==="sec") secCur+=rh; else unsCur+=rh; li++;
+    });
+  });
+  segs.forEach(([k,m])=>{ const L=left[k];
+    g += `<rect x="${lx}" y="${L.y.toFixed(1)}" width="${lw}" height="${L.h.toFixed(1)}" rx="4" fill="${m.color}"/>`;
+    g += `<text x="${lx+lw+5}" y="${(L.y+L.h/2+3).toFixed(1)}" font-size="9.5" font-weight="700" fill="#0f172a">${m.name}</text>`;
+  });
+  g += `<rect x="${rx}" y="${right.sec.y.toFixed(1)}" width="${rw}" height="${right.sec.h.toFixed(1)}" rx="4" fill="#008465"/>`;
+  g += `<rect x="${rx}" y="${right.uns.y.toFixed(1)}" width="${rw}" height="${right.uns.h.toFixed(1)}" rx="4" fill="#ffc000"/>`;
+  g += `<text x="${rx-4}" y="${(right.sec.y+right.sec.h/2+3).toFixed(1)}" text-anchor="end" font-size="9.5" font-weight="700" fill="#006a51">Залог.</text>`;
+  g += `<text x="${rx-4}" y="${(right.uns.y+right.uns.h/2+3).toFixed(1)}" text-anchor="end" font-size="9.5" font-weight="700" fill="#8a6500">Необесп.</text>`;
+  svg.innerHTML = g;
+}
+
+// Heatmap: credit quality (collateral vs unsecured)
+function renderHeat(){
+  const root = document.getElementById("qualHeat"); if(!root) return;
+  // [label, secured, unsecured, secured intensity 0..1, unsecured intensity 0..1]
+  const rows = [
+    ["Approval rate","58%","41%",.90,.55],
+    ["Take rate","51%","44%",.78,.62],
+    ["Default rate","1.8%","4.6%",.92,.90],
+    ["Средняя выдача","18.4 млн","3.1 млн",.85,.30],
+    ["Loss given default","22%","61%",.88,.95],
+  ];
+  root.style.gridTemplateColumns = "1.5fr 1fr 1fr";
+  root.style.gridAutoRows = "1fr";
+  const green = t => `rgba(0,132,101,${(.35+t*.6).toFixed(2)})`;
+  const amber = t => `rgba(214,162,0,${(.35+t*.6).toFixed(2)})`;
+  let g = `<div class="hh" style="justify-content:flex-start;padding-left:2px">Показатель</div>
+    <div class="hh">Залоговые</div><div class="hh">Необеспеченные</div>`;
+  rows.forEach(r=>{
+    g += `<div class="hl-row">${r[0]}</div>`;
+    g += `<div class="hc" style="background:${green(r[3])}">${r[1]}</div>`;
+    g += `<div class="hc" style="background:${amber(r[4])}">${r[2]}</div>`;
+  });
+  root.innerHTML = g;
+  raf(()=>root.querySelectorAll(".hc").forEach((c,i)=>setTimeout(()=>c.classList.add("in"), i*55)));
+}
+
+// ================= PAGE 3 =================
+function renderPage3(){ renderScenarioTable(); renderClock(); renderDiscTree(); renderScenarioBars(); renderGauges(); }
+
+function renderScenarioTable(){
+  const tb = document.querySelector("#scenarios tbody"); if(!tb) return;
+  tb.innerHTML = "";
+  effectScenarios().forEach(s=>{
+    const tr = document.createElement("tr");
+    if(s.name.startsWith("Текущее")) tr.className = "hl";
+    tr.innerHTML = `<td>${s.name}</td><td>${(s.tr*100).toFixed(1)}%</td>
+      <td>${fmt(s.disb)}</td><td>${fmtM(s.mRev)}</td><td>${fmtM(s.yRev)}</td>`;
+    tb.appendChild(tr);
+  });
+}
+
+// Clockmap: take rate radial, 13 months, with min/avg/max reference rings
+function renderClock(){
+  const svg = document.getElementById("trClock"); if(!svg) return;
+  const cx=150, cy=150, inner=46, outer=126;
+  let g = "";
+  const ring = (v,col,dash) => {
+    const rr = inner + (outer-inner)*v;
+    g += `<circle cx="${cx}" cy="${cy}" r="${rr.toFixed(1)}" fill="none" stroke="${col}" stroke-width="1.2"
+            ${dash?`stroke-dasharray="${dash}"`:""} stroke-opacity=".7"/>`;
+  };
+  ring(TR.min,"#94a3b8","");
+  ring(TR.avg,"#8a6500","5 5");
+  ring(TR.max,"#0f172a","");
+  g += `<circle cx="${cx}" cy="${cy}" r="${inner}" fill="#f6f8fb" stroke="#e6eaf0"/>`;
+  const n = takerate.length;
+  takerate.forEach(([m,v],i)=>{
+    const ang = (i/n)*2*Math.PI - Math.PI/2;
+    const len = (outer-inner)*v;
+    const x1 = cx+Math.cos(ang)*inner, y1 = cy+Math.sin(ang)*inner;
+    const x2 = cx+Math.cos(ang)*(inner+len), y2 = cy+Math.sin(ang)*(inner+len);
+    const last = i===n-1;
+    let col = "#008465";
+    if(last) col="#ffc000"; else if(v===TR.max) col="#0f172a"; else if(v===TR.min) col="#94a3b8";
+    const L = Math.hypot(x2-x1,y2-y1);
+    g += `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}"
+            stroke="${col}" stroke-width="9" stroke-linecap="round"
+            stroke-dasharray="${L.toFixed(1)}" stroke-dashoffset="${L.toFixed(1)}">
+            <animate attributeName="stroke-dashoffset" from="${L.toFixed(1)}" to="0" dur=".7s" begin="${(i*0.05).toFixed(2)}s" fill="freeze"/></line>`;
+    const lx = cx+Math.cos(ang)*(outer+12), ly = cy+Math.sin(ang)*(outer+12);
+    g += `<text x="${lx.toFixed(1)}" y="${(ly+3).toFixed(1)}" text-anchor="middle" font-size="8" fill="#94a3b8">${m.split(" ")[0]}</text>`;
+  });
+  g += `<text x="${cx}" y="${cy-3}" text-anchor="middle" font-size="22" font-weight="800" fill="#0f172a">51%</text>`;
+  g += `<text x="${cx}" y="${cy+15}" text-anchor="middle" font-size="9" font-weight="600" fill="#64748b">май 2026</text>`;
+  svg.innerHTML = g;
+}
+
+// Treemap: discount distribution (2 rows, animated)
+function renderDiscTree(){
+  const root = document.getElementById("discTree"); if(!root) return;
+  root.innerHTML = "";
+  const total = discBuckets.reduce((a,b)=>a+b[1],0);
+  const max = Math.max(...discBuckets.map(d=>d[1]));
+  const rows = [discBuckets.slice(0,3), discBuckets.slice(3)];
+  let yOff=0, idx=0;
+  rows.forEach(row=>{
+    const rowSum = row.reduce((a,b)=>a+b[1],0);
+    const rh = rowSum/total*100;
+    let xOff=0;
+    row.forEach(([label,val])=>{
+      const w = val/rowSum*100, t = val/max;
+      const el = document.createElement("div");
+      el.className = "tm-cell";
+      el.style.left = xOff+"%"; el.style.top = yOff+"%";
+      el.style.width = "calc("+w+"% - 6px)"; el.style.height = "calc("+rh+"% - 6px)";
+      el.style.margin = "3px"; el.style.cursor = "default";
+      el.style.background = val===max ? "#ffc000" : `rgba(0,132,101,${(.45+t*.5).toFixed(2)})`;
+      if(val===max) el.style.color = "#1a1100";
+      el.innerHTML = `<div class="tm-name">${label}</div><div class="tm-val">${val}%</div>`;
+      root.appendChild(el);
+      const k = idx;
+      raf(()=>setTimeout(()=>el.classList.add("in"), k*85));
+      xOff += w; idx++;
+    });
+    yOff += rh;
+  });
+}
+
+// Animated income-by-scenario bars
+function renderScenarioBars(){
+  const svg = document.getElementById("scBars"); if(!svg) return;
+  const scs = effectScenarios();
+  const W=400, H=260, P={l:18,r:14,t:30,b:56};
+  const max = Math.max(...scs.map(s=>s.yRev));
+  const colors = ["#94a3b8","#008465","#0f172a","#ffc000"];
+  const step = (W-P.l-P.r)/scs.length, bw = step-18;
+  let g = "";
+  scs.forEach((s,i)=>{
+    const x = P.l+i*step+9;
+    const h = s.yRev/max*(H-P.t-P.b);
+    const y = H-P.b-h;
+    g += `<rect class="anim-bar" x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" rx="9"
+            fill="${colors[i]}" style="animation-delay:${i*150}ms"/>`;
+    g += `<text x="${(x+bw/2).toFixed(1)}" y="${(y-8).toFixed(1)}" text-anchor="middle" font-size="13" font-weight="800" fill="#0f172a">${(s.yRev/1_000_000).toFixed(0)} млн</text>`;
+    g += `<text x="${(x+bw/2).toFixed(1)}" y="${H-P.b+18}" text-anchor="middle" font-size="11" font-weight="700" fill="#0f172a">${s.name.replace(" (май 2026)","")}</text>`;
+    g += `<text x="${(x+bw/2).toFixed(1)}" y="${H-P.b+34}" text-anchor="middle" font-size="9.5" fill="#64748b">TR ${(s.tr*100).toFixed(0)}% · ${s.disb}/мес</text>`;
+  });
+  svg.innerHTML = g;
+}
+
+// Target KPI gauges (animated)
+function renderGauges(){
+  const root = document.getElementById("gauges"); if(!root) return;
+  const C = 2*Math.PI*70;
+  const data = [
+    {val:"+30%", sub:"рост сделок",   frac:.70, g:["#008465","#1aa07f"]},
+    {val:"60",   sub:"дней · −50%",   frac:.50, g:["#008465","#ffc000"]},
+    {val:"+25%", sub:"заявки ипотеки",frac:.75, g:["#ffc000","#ffa800"]},
+  ];
+  root.innerHTML = data.map((d,i)=>`
+    <div class="g">
+      <svg viewBox="0 0 200 200">
+        <circle cx="100" cy="100" r="70" stroke="#eef2f7" stroke-width="15" fill="none"/>
+        <circle cx="100" cy="100" r="70" stroke="url(#gg${i})" stroke-width="15" fill="none" stroke-linecap="round"
+          transform="rotate(-90 100 100)" stroke-dasharray="${C.toFixed(1)}" stroke-dashoffset="${C.toFixed(1)}">
+          <animate attributeName="stroke-dashoffset" from="${C.toFixed(1)}" to="${(C*(1-d.frac)).toFixed(1)}" dur="1.2s"
+            begin="${(i*0.15).toFixed(2)}s" fill="freeze" calcMode="spline" keySplines="0.2 0.7 0.2 1" keyTimes="0;1"/></circle>
+        <defs><linearGradient id="gg${i}" x1="0" x2="1"><stop offset="0" stop-color="${d.g[0]}"/><stop offset="1" stop-color="${d.g[1]}"/></linearGradient></defs>
+        <text x="100" y="96" text-anchor="middle" font-size="30" font-weight="800" fill="#0f172a">${d.val}</text>
+        <text x="100" y="118" text-anchor="middle" font-size="10" font-weight="600" fill="#64748b">${d.sub}</text>
+      </svg>
+    </div>`).join("");
+}
+
+// ---------- Prototype navigation (Page 2) ----------
+function showScreen(id){
+  document.querySelectorAll(".scr").forEach(s=>s.classList.toggle("active", s.dataset.id===id));
+  document.querySelectorAll(".step").forEach(s=>s.classList.toggle("active", s.dataset.step===id));
+}
+document.addEventListener("click", e=>{
+  const strip = e.target.closest("#objStrip img");
+  if(strip){
+    document.getElementById("objMain").src = strip.src;
+    strip.parentElement.querySelectorAll("img").forEach(i=>i.classList.remove("on"));
+    strip.classList.add("on");
+    const idx = [...strip.parentElement.children].indexOf(strip)+1;
+    const cnt = strip.closest(".scrbody").querySelector(".count");
+    if(cnt) cnt.textContent = idx+" / 3 фото";
+    return;
+  }
+  const goEl = e.target.closest("[data-go]");
+  if(goEl){ e.preventDefault(); showScreen(goEl.dataset.go); return; }
+  const stepEl = e.target.closest(".step");
+  if(stepEl){ showScreen(stepEl.dataset.step); return; }
+  const seg = e.target.closest(".seg [data-seg]");
+  if(seg && seg.closest("#screens")){
+    seg.parentElement.querySelectorAll("button").forEach(b=>b.classList.remove("active"));
+    seg.classList.add("active");
+    const list = document.getElementById("catalogList");
+    const map = document.getElementById("catalogMap");
+    if(seg.dataset.seg==="map"){ list.style.display="none"; map.style.display=""; }
+    else { list.style.display=""; map.style.display="none"; }
+  }
+});
+
+showPage(1);
+</script>
+</body>
+</html>

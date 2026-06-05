@@ -1,0 +1,1729 @@
+{
+  "source": "EDW / krisha.kz (placeholder estimates — replace with real EDW medians)",
+  "generated_at": "2026-06-05",
+  "note": "market_median_kzt are deterministic estimates pending the real EDW/krisha.kz feed. Swap method to 'edw' and update values once the EDW export is available.",
+  "prices": {
+    "hz-15111": {
+      "market_median_kzt": 28427000,
+      "implied_discount_pct": 17.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 7
+    },
+    "hz-15110": {
+      "market_median_kzt": 124104000,
+      "implied_discount_pct": 20.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 10
+    },
+    "hz-15089": {
+      "market_median_kzt": 30859000,
+      "implied_discount_pct": 29.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 11
+    },
+    "hz-15084": {
+      "market_median_kzt": 44574000,
+      "implied_discount_pct": 27.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 9
+    },
+    "hz-15083": {
+      "market_median_kzt": 72484000,
+      "implied_discount_pct": 15.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-15082": {
+      "market_median_kzt": 11661000,
+      "implied_discount_pct": 26.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 8
+    },
+    "hz-15081": {
+      "market_median_kzt": 30339000,
+      "implied_discount_pct": 26.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 8
+    },
+    "hz-15079": {
+      "market_median_kzt": 56579000,
+      "implied_discount_pct": 24.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 6
+    },
+    "hz-15064": {
+      "market_median_kzt": 35041000,
+      "implied_discount_pct": 21.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 11
+    },
+    "hz-15059": {
+      "market_median_kzt": 13745000,
+      "implied_discount_pct": 15.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-15046": {
+      "market_median_kzt": 59235000,
+      "implied_discount_pct": 26.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 8
+    },
+    "hz-15041": {
+      "market_median_kzt": 16086000,
+      "implied_discount_pct": 22.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 12
+    },
+    "hz-15030": {
+      "market_median_kzt": 75941000,
+      "implied_discount_pct": 25.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 7
+    },
+    "hz-15029": {
+      "market_median_kzt": 64409000,
+      "implied_discount_pct": 25.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 7
+    },
+    "hz-15028": {
+      "market_median_kzt": 33873000,
+      "implied_discount_pct": 29.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 11
+    },
+    "hz-15013": {
+      "market_median_kzt": 289747000,
+      "implied_discount_pct": 25.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 7
+    },
+    "hz-15012": {
+      "market_median_kzt": 273335000,
+      "implied_discount_pct": 21.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 11
+    },
+    "hz-15010": {
+      "market_median_kzt": 280617000,
+      "implied_discount_pct": 19.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 9
+    },
+    "hz-15009": {
+      "market_median_kzt": 324714000,
+      "implied_discount_pct": 30.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 12
+    },
+    "hz-15008": {
+      "market_median_kzt": 304836000,
+      "implied_discount_pct": 25.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 7
+    },
+    "hz-15007": {
+      "market_median_kzt": 304032000,
+      "implied_discount_pct": 25.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 7
+    },
+    "hz-15006": {
+      "market_median_kzt": 282405000,
+      "implied_discount_pct": 19.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 9
+    },
+    "hz-15005": {
+      "market_median_kzt": 295195000,
+      "implied_discount_pct": 23.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-14998": {
+      "market_median_kzt": 54675000,
+      "implied_discount_pct": 23.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-14997": {
+      "market_median_kzt": 56892000,
+      "implied_discount_pct": 26.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 8
+    },
+    "hz-14968": {
+      "market_median_kzt": 74171000,
+      "implied_discount_pct": 21.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 11
+    },
+    "hz-14963": {
+      "market_median_kzt": 64310000,
+      "implied_discount_pct": 25.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 7
+    },
+    "hz-14962": {
+      "market_median_kzt": 73333000,
+      "implied_discount_pct": 28.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 10
+    },
+    "hz-14961": {
+      "market_median_kzt": 112658000,
+      "implied_discount_pct": 20.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 10
+    },
+    "hz-14960": {
+      "market_median_kzt": 46301000,
+      "implied_discount_pct": 27.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 9
+    },
+    "hz-14959": {
+      "market_median_kzt": 49351000,
+      "implied_discount_pct": 23.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-14958": {
+      "market_median_kzt": 30166000,
+      "implied_discount_pct": 16.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 6
+    },
+    "hz-14957": {
+      "market_median_kzt": 61358000,
+      "implied_discount_pct": 23.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-14952": {
+      "market_median_kzt": 32456000,
+      "implied_discount_pct": 22.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 12
+    },
+    "hz-14950": {
+      "market_median_kzt": 26400000,
+      "implied_discount_pct": 25.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 7
+    },
+    "hz-14940": {
+      "market_median_kzt": 55489000,
+      "implied_discount_pct": 21.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 11
+    },
+    "hz-14930": {
+      "market_median_kzt": 57854000,
+      "implied_discount_pct": 19.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 9
+    },
+    "hz-14929": {
+      "market_median_kzt": 31830000,
+      "implied_discount_pct": 18.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 8
+    },
+    "hz-14921": {
+      "market_median_kzt": 17247000,
+      "implied_discount_pct": 26.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 8
+    },
+    "hz-14920": {
+      "market_median_kzt": 199453000,
+      "implied_discount_pct": 26.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 8
+    },
+    "hz-14909": {
+      "market_median_kzt": 346712000,
+      "implied_discount_pct": 27.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 9
+    },
+    "hz-14907": {
+      "market_median_kzt": 383889000,
+      "implied_discount_pct": 28.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 10
+    },
+    "hz-14906": {
+      "market_median_kzt": 411757000,
+      "implied_discount_pct": 26.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 8
+    },
+    "hz-14905": {
+      "market_median_kzt": 374074000,
+      "implied_discount_pct": 19.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 9
+    },
+    "hz-14904": {
+      "market_median_kzt": 365974000,
+      "implied_discount_pct": 23.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-14903": {
+      "market_median_kzt": 382877000,
+      "implied_discount_pct": 27.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 9
+    },
+    "hz-14901": {
+      "market_median_kzt": 14559000,
+      "implied_discount_pct": 16.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 6
+    },
+    "hz-14897": {
+      "market_median_kzt": 25564000,
+      "implied_discount_pct": 19.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 9
+    },
+    "hz-14885": {
+      "market_median_kzt": 77922000,
+      "implied_discount_pct": 23.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-14865": {
+      "market_median_kzt": 147260000,
+      "implied_discount_pct": 27.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 9
+    },
+    "hz-14863": {
+      "market_median_kzt": 29762000,
+      "implied_discount_pct": 16.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 6
+    },
+    "hz-14855": {
+      "market_median_kzt": 33240000,
+      "implied_discount_pct": 16.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 6
+    },
+    "hz-14848": {
+      "market_median_kzt": 21736000,
+      "implied_discount_pct": 23.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-14845": {
+      "market_median_kzt": 17472000,
+      "implied_discount_pct": 19.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 9
+    },
+    "hz-14792": {
+      "market_median_kzt": 30494000,
+      "implied_discount_pct": 19.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 9
+    },
+    "hz-14790": {
+      "market_median_kzt": 39556000,
+      "implied_discount_pct": 20.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 10
+    },
+    "hz-14789": {
+      "market_median_kzt": 50872000,
+      "implied_discount_pct": 15.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-14725": {
+      "market_median_kzt": 63769000,
+      "implied_discount_pct": 30.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 12
+    },
+    "hz-14724": {
+      "market_median_kzt": 55044000,
+      "implied_discount_pct": 16.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 6
+    },
+    "hz-14723": {
+      "market_median_kzt": 143247000,
+      "implied_discount_pct": 23.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-14722": {
+      "market_median_kzt": 17938000,
+      "implied_discount_pct": 23.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-14710": {
+      "market_median_kzt": 28118000,
+      "implied_discount_pct": 15.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-14704": {
+      "market_median_kzt": 60885000,
+      "implied_discount_pct": 26.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 8
+    },
+    "hz-14700": {
+      "market_median_kzt": 43333000,
+      "implied_discount_pct": 25.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 7
+    },
+    "hz-14699": {
+      "market_median_kzt": 25823000,
+      "implied_discount_pct": 21.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 11
+    },
+    "hz-14685": {
+      "market_median_kzt": 12941000,
+      "implied_discount_pct": 15.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-14674": {
+      "market_median_kzt": 31619000,
+      "implied_discount_pct": 22.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 12
+    },
+    "hz-14665": {
+      "market_median_kzt": 13386000,
+      "implied_discount_pct": 17.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 7
+    },
+    "hz-14664": {
+      "market_median_kzt": 17052000,
+      "implied_discount_pct": 19.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 9
+    },
+    "hz-14663": {
+      "market_median_kzt": 14248000,
+      "implied_discount_pct": 18.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 8
+    },
+    "hz-14662": {
+      "market_median_kzt": 73603000,
+      "implied_discount_pct": 23.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-14652": {
+      "market_median_kzt": 73986000,
+      "implied_discount_pct": 28.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 10
+    },
+    "hz-14647": {
+      "market_median_kzt": 9396000,
+      "implied_discount_pct": 24.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 6
+    },
+    "hz-14643": {
+      "market_median_kzt": 55006000,
+      "implied_discount_pct": 19.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 9
+    },
+    "hz-14641": {
+      "market_median_kzt": 38571000,
+      "implied_discount_pct": 23.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-14640": {
+      "market_median_kzt": 93429000,
+      "implied_discount_pct": 23.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-14638": {
+      "market_median_kzt": 49526000,
+      "implied_discount_pct": 15.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-14635": {
+      "market_median_kzt": 15269000,
+      "implied_discount_pct": 29.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 11
+    },
+    "hz-14621": {
+      "market_median_kzt": 59247000,
+      "implied_discount_pct": 27.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 9
+    },
+    "hz-14619": {
+      "market_median_kzt": 33914000,
+      "implied_discount_pct": 24.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 6
+    },
+    "hz-14599": {
+      "market_median_kzt": 106002000,
+      "implied_discount_pct": 28.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 10
+    },
+    "hz-14578": {
+      "market_median_kzt": 132262000,
+      "implied_discount_pct": 16.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 6
+    },
+    "hz-14565": {
+      "market_median_kzt": 27416000,
+      "implied_discount_pct": 19.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 9
+    },
+    "hz-14462": {
+      "market_median_kzt": 179315000,
+      "implied_discount_pct": 27.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 9
+    },
+    "hz-14460": {
+      "market_median_kzt": 12666000,
+      "implied_discount_pct": 24.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 6
+    },
+    "hz-14451": {
+      "market_median_kzt": 61585000,
+      "implied_discount_pct": 18.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 8
+    },
+    "hz-14449": {
+      "market_median_kzt": 50021000,
+      "implied_discount_pct": 25.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 7
+    },
+    "hz-14442": {
+      "market_median_kzt": 17429000,
+      "implied_discount_pct": 30.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 12
+    },
+    "hz-14430": {
+      "market_median_kzt": 91429000,
+      "implied_discount_pct": 30.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 12
+    },
+    "hz-14419": {
+      "market_median_kzt": 29613000,
+      "implied_discount_pct": 18.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 8
+    },
+    "hz-14391": {
+      "market_median_kzt": 23077000,
+      "implied_discount_pct": 22.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 12
+    },
+    "hz-14388": {
+      "market_median_kzt": 38240000,
+      "implied_discount_pct": 24.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 6
+    },
+    "hz-14344": {
+      "market_median_kzt": 33540000,
+      "implied_discount_pct": 27.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 9
+    },
+    "hz-14197": {
+      "market_median_kzt": 216464000,
+      "implied_discount_pct": 17.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 7
+    },
+    "hz-14187": {
+      "market_median_kzt": 83714000,
+      "implied_discount_pct": 30.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 12
+    },
+    "hz-14138": {
+      "market_median_kzt": 11842000,
+      "implied_discount_pct": 24.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 6
+    },
+    "hz-14067": {
+      "market_median_kzt": 59878000,
+      "implied_discount_pct": 18.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 8
+    },
+    "hz-14050": {
+      "market_median_kzt": 142571000,
+      "implied_discount_pct": 30.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 12
+    },
+    "hz-14048": {
+      "market_median_kzt": 111392000,
+      "implied_discount_pct": 21.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 11
+    },
+    "hz-14046": {
+      "market_median_kzt": 589091000,
+      "implied_discount_pct": 23.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-14034": {
+      "market_median_kzt": 36301000,
+      "implied_discount_pct": 27.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 9
+    },
+    "hz-14032": {
+      "market_median_kzt": 27532000,
+      "implied_discount_pct": 23.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-14031": {
+      "market_median_kzt": 29259000,
+      "implied_discount_pct": 19.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 9
+    },
+    "hz-14014": {
+      "market_median_kzt": 192500000,
+      "implied_discount_pct": 20.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 10
+    },
+    "hz-13990": {
+      "market_median_kzt": 106965000,
+      "implied_discount_pct": 28.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 10
+    },
+    "hz-13989": {
+      "market_median_kzt": 107986000,
+      "implied_discount_pct": 29.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 11
+    },
+    "hz-13988": {
+      "market_median_kzt": 90917000,
+      "implied_discount_pct": 23.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-13983": {
+      "market_median_kzt": 111092000,
+      "implied_discount_pct": 24.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 6
+    },
+    "hz-13982": {
+      "market_median_kzt": 86407000,
+      "implied_discount_pct": 16.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 6
+    },
+    "hz-13977": {
+      "market_median_kzt": 107636000,
+      "implied_discount_pct": 28.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 10
+    },
+    "hz-13976": {
+      "market_median_kzt": 95922000,
+      "implied_discount_pct": 26.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 8
+    },
+    "hz-13971": {
+      "market_median_kzt": 104727000,
+      "implied_discount_pct": 26.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 8
+    },
+    "hz-13965": {
+      "market_median_kzt": 92013000,
+      "implied_discount_pct": 16.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 6
+    },
+    "hz-13964": {
+      "market_median_kzt": 86007000,
+      "implied_discount_pct": 19.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 9
+    },
+    "hz-13962": {
+      "market_median_kzt": 115658000,
+      "implied_discount_pct": 27.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 9
+    },
+    "hz-13959": {
+      "market_median_kzt": 96017000,
+      "implied_discount_pct": 19.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 9
+    },
+    "hz-13954": {
+      "market_median_kzt": 103515000,
+      "implied_discount_pct": 26.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 8
+    },
+    "hz-13953": {
+      "market_median_kzt": 96551000,
+      "implied_discount_pct": 28.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 10
+    },
+    "hz-13951": {
+      "market_median_kzt": 113784000,
+      "implied_discount_pct": 27.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 9
+    },
+    "hz-13948": {
+      "market_median_kzt": 98672000,
+      "implied_discount_pct": 17.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 7
+    },
+    "hz-13947": {
+      "market_median_kzt": 93172000,
+      "implied_discount_pct": 19.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 9
+    },
+    "hz-13946": {
+      "market_median_kzt": 82360000,
+      "implied_discount_pct": 15.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-13944": {
+      "market_median_kzt": 104341000,
+      "implied_discount_pct": 20.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 10
+    },
+    "hz-13942": {
+      "market_median_kzt": 117487000,
+      "implied_discount_pct": 30.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 12
+    },
+    "hz-13941": {
+      "market_median_kzt": 89955000,
+      "implied_discount_pct": 15.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-13940": {
+      "market_median_kzt": 82360000,
+      "implied_discount_pct": 15.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-13938": {
+      "market_median_kzt": 103475000,
+      "implied_discount_pct": 19.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 9
+    },
+    "hz-13937": {
+      "market_median_kzt": 69228000,
+      "implied_discount_pct": 20.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 10
+    },
+    "hz-13936": {
+      "market_median_kzt": 105845000,
+      "implied_discount_pct": 26.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 8
+    },
+    "hz-13935": {
+      "market_median_kzt": 95750000,
+      "implied_discount_pct": 24.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 6
+    },
+    "hz-13934": {
+      "market_median_kzt": 101721000,
+      "implied_discount_pct": 23.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-13933": {
+      "market_median_kzt": 97409000,
+      "implied_discount_pct": 22.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 12
+    },
+    "hz-13928": {
+      "market_median_kzt": 85203000,
+      "implied_discount_pct": 18.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 8
+    },
+    "hz-13927": {
+      "market_median_kzt": 93500000,
+      "implied_discount_pct": 18.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 8
+    },
+    "hz-13926": {
+      "market_median_kzt": 117131000,
+      "implied_discount_pct": 19.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 9
+    },
+    "hz-13922": {
+      "market_median_kzt": 93458000,
+      "implied_discount_pct": 21.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 11
+    },
+    "hz-13921": {
+      "market_median_kzt": 117074000,
+      "implied_discount_pct": 28.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 10
+    },
+    "hz-13920": {
+      "market_median_kzt": 106314000,
+      "implied_discount_pct": 22.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 12
+    },
+    "hz-13918": {
+      "market_median_kzt": 106220000,
+      "implied_discount_pct": 20.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 10
+    },
+    "hz-13916": {
+      "market_median_kzt": 83754000,
+      "implied_discount_pct": 15.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-13915": {
+      "market_median_kzt": 107444000,
+      "implied_discount_pct": 28.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 10
+    },
+    "hz-13910": {
+      "market_median_kzt": 85857000,
+      "implied_discount_pct": 17.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 7
+    },
+    "hz-13909": {
+      "market_median_kzt": 94931000,
+      "implied_discount_pct": 18.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 8
+    },
+    "hz-13908": {
+      "market_median_kzt": 101212000,
+      "implied_discount_pct": 18.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 8
+    },
+    "hz-13903": {
+      "market_median_kzt": 100307000,
+      "implied_discount_pct": 30.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 12
+    },
+    "hz-13902": {
+      "market_median_kzt": 36509000,
+      "implied_discount_pct": 24.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 6
+    },
+    "hz-13901": {
+      "market_median_kzt": 93371000,
+      "implied_discount_pct": 17.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 7
+    },
+    "hz-13899": {
+      "market_median_kzt": 106227000,
+      "implied_discount_pct": 22.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 12
+    },
+    "hz-13898": {
+      "market_median_kzt": 80037000,
+      "implied_discount_pct": 26.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 8
+    },
+    "hz-13895": {
+      "market_median_kzt": 84668000,
+      "implied_discount_pct": 16.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 6
+    },
+    "hz-13894": {
+      "market_median_kzt": 107295000,
+      "implied_discount_pct": 27.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 9
+    },
+    "hz-13878": {
+      "market_median_kzt": 99375000,
+      "implied_discount_pct": 18.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 8
+    },
+    "hz-13876": {
+      "market_median_kzt": 74881000,
+      "implied_discount_pct": 21.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 11
+    },
+    "hz-13873": {
+      "market_median_kzt": 106140000,
+      "implied_discount_pct": 22.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 12
+    },
+    "hz-13864": {
+      "market_median_kzt": 94414000,
+      "implied_discount_pct": 26.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 8
+    },
+    "hz-13862": {
+      "market_median_kzt": 97837000,
+      "implied_discount_pct": 21.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 11
+    },
+    "hz-13860": {
+      "market_median_kzt": 109839000,
+      "implied_discount_pct": 26.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 8
+    },
+    "hz-13859": {
+      "market_median_kzt": 83593000,
+      "implied_discount_pct": 30.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 12
+    },
+    "hz-13857": {
+      "market_median_kzt": 97399000,
+      "implied_discount_pct": 15.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-13854": {
+      "market_median_kzt": 82441000,
+      "implied_discount_pct": 15.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-13853": {
+      "market_median_kzt": 106582000,
+      "implied_discount_pct": 28.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 10
+    },
+    "hz-13852": {
+      "market_median_kzt": 124649000,
+      "implied_discount_pct": 17.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 7
+    },
+    "hz-13850": {
+      "market_median_kzt": 131398000,
+      "implied_discount_pct": 16.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 6
+    },
+    "hz-13847": {
+      "market_median_kzt": 84266000,
+      "implied_discount_pct": 18.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 8
+    },
+    "hz-13845": {
+      "market_median_kzt": 102319000,
+      "implied_discount_pct": 25.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 7
+    },
+    "hz-13843": {
+      "market_median_kzt": 103679000,
+      "implied_discount_pct": 29.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 11
+    },
+    "hz-13841": {
+      "market_median_kzt": 141683000,
+      "implied_discount_pct": 30.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 12
+    },
+    "hz-13839": {
+      "market_median_kzt": 182147000,
+      "implied_discount_pct": 21.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 11
+    },
+    "hz-13838": {
+      "market_median_kzt": 165427000,
+      "implied_discount_pct": 18.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 8
+    },
+    "hz-13837": {
+      "market_median_kzt": 214530000,
+      "implied_discount_pct": 17.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 7
+    },
+    "hz-13836": {
+      "market_median_kzt": 200098000,
+      "implied_discount_pct": 20.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 10
+    },
+    "hz-13835": {
+      "market_median_kzt": 175574000,
+      "implied_discount_pct": 18.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 8
+    },
+    "hz-13834": {
+      "market_median_kzt": 228958000,
+      "implied_discount_pct": 21.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 11
+    },
+    "hz-13827": {
+      "market_median_kzt": 206476000,
+      "implied_discount_pct": 22.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 12
+    },
+    "hz-13825": {
+      "market_median_kzt": 162880000,
+      "implied_discount_pct": 15.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-13823": {
+      "market_median_kzt": 205175000,
+      "implied_discount_pct": 16.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 6
+    },
+    "hz-13822": {
+      "market_median_kzt": 216585000,
+      "implied_discount_pct": 29.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 11
+    },
+    "hz-13821": {
+      "market_median_kzt": 179803000,
+      "implied_discount_pct": 23.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-13820": {
+      "market_median_kzt": 229796000,
+      "implied_discount_pct": 25.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 7
+    },
+    "hz-13819": {
+      "market_median_kzt": 210651000,
+      "implied_discount_pct": 27.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 9
+    },
+    "hz-13818": {
+      "market_median_kzt": 189655000,
+      "implied_discount_pct": 27.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 9
+    },
+    "hz-13816": {
+      "market_median_kzt": 205175000,
+      "implied_discount_pct": 16.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 6
+    },
+    "hz-13810": {
+      "market_median_kzt": 213576000,
+      "implied_discount_pct": 28.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 10
+    },
+    "hz-13804": {
+      "market_median_kzt": 173060000,
+      "implied_discount_pct": 20.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 10
+    },
+    "hz-13803": {
+      "market_median_kzt": 226772000,
+      "implied_discount_pct": 24.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 6
+    },
+    "hz-13802": {
+      "market_median_kzt": 216585000,
+      "implied_discount_pct": 29.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 11
+    },
+    "hz-13801": {
+      "market_median_kzt": 192289000,
+      "implied_discount_pct": 28.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 10
+    },
+    "hz-13800": {
+      "market_median_kzt": 205175000,
+      "implied_discount_pct": 16.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 6
+    },
+    "hz-13799": {
+      "market_median_kzt": 216585000,
+      "implied_discount_pct": 29.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 11
+    },
+    "hz-13798": {
+      "market_median_kzt": 184597000,
+      "implied_discount_pct": 25.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 7
+    },
+    "hz-13797": {
+      "market_median_kzt": 207647000,
+      "implied_discount_pct": 17.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 7
+    },
+    "hz-13796": {
+      "market_median_kzt": 197147000,
+      "implied_discount_pct": 22.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 12
+    },
+    "hz-13795": {
+      "market_median_kzt": 121876000,
+      "implied_discount_pct": 18.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 8
+    },
+    "hz-13794": {
+      "market_median_kzt": 160605000,
+      "implied_discount_pct": 19.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 9
+    },
+    "hz-13793": {
+      "market_median_kzt": 84090000,
+      "implied_discount_pct": 18.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 8
+    },
+    "hz-13792": {
+      "market_median_kzt": 88070000,
+      "implied_discount_pct": 17.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 7
+    },
+    "hz-13791": {
+      "market_median_kzt": 84260000,
+      "implied_discount_pct": 17.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 7
+    },
+    "hz-13786": {
+      "market_median_kzt": 106700000,
+      "implied_discount_pct": 21.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 11
+    },
+    "hz-13780": {
+      "market_median_kzt": 99408000,
+      "implied_discount_pct": 21.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 11
+    },
+    "hz-13779": {
+      "market_median_kzt": 98102000,
+      "implied_discount_pct": 28.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 10
+    },
+    "hz-13775": {
+      "market_median_kzt": 103916000,
+      "implied_discount_pct": 23.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-13774": {
+      "market_median_kzt": 101452000,
+      "implied_discount_pct": 23.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-13773": {
+      "market_median_kzt": 93490000,
+      "implied_discount_pct": 24.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 6
+    },
+    "hz-13771": {
+      "market_median_kzt": 111182000,
+      "implied_discount_pct": 24.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 6
+    },
+    "hz-13769": {
+      "market_median_kzt": 95855000,
+      "implied_discount_pct": 17.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 7
+    },
+    "hz-13768": {
+      "market_median_kzt": 109832000,
+      "implied_discount_pct": 29.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 11
+    },
+    "hz-13765": {
+      "market_median_kzt": 117547000,
+      "implied_discount_pct": 28.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 10
+    },
+    "hz-13763": {
+      "market_median_kzt": 111232000,
+      "implied_discount_pct": 29.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 11
+    },
+    "hz-13762": {
+      "market_median_kzt": 96273000,
+      "implied_discount_pct": 19.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 9
+    },
+    "hz-13761": {
+      "market_median_kzt": 84170000,
+      "implied_discount_pct": 16.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 6
+    },
+    "hz-13759": {
+      "market_median_kzt": 107132000,
+      "implied_discount_pct": 21.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 11
+    },
+    "hz-13757": {
+      "market_median_kzt": 101250000,
+      "implied_discount_pct": 22.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 12
+    },
+    "hz-13756": {
+      "market_median_kzt": 97225000,
+      "implied_discount_pct": 21.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 11
+    },
+    "hz-13755": {
+      "market_median_kzt": 87996000,
+      "implied_discount_pct": 21.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 11
+    },
+    "hz-13753": {
+      "market_median_kzt": 104341000,
+      "implied_discount_pct": 20.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 10
+    },
+    "hz-13751": {
+      "market_median_kzt": 109858000,
+      "implied_discount_pct": 29.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 11
+    },
+    "hz-13750": {
+      "market_median_kzt": 109627000,
+      "implied_discount_pct": 30.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 12
+    },
+    "hz-13749": {
+      "market_median_kzt": 89482000,
+      "implied_discount_pct": 22.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 12
+    },
+    "hz-13747": {
+      "market_median_kzt": 112708000,
+      "implied_discount_pct": 26.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 8
+    },
+    "hz-13745": {
+      "market_median_kzt": 100536000,
+      "implied_discount_pct": 23.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-13744": {
+      "market_median_kzt": 105122000,
+      "implied_discount_pct": 27.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 9
+    },
+    "hz-13741": {
+      "market_median_kzt": 104683000,
+      "implied_discount_pct": 20.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 10
+    },
+    "hz-13740": {
+      "market_median_kzt": 73890000,
+      "implied_discount_pct": 21.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 11
+    },
+    "hz-13739": {
+      "market_median_kzt": 109032000,
+      "implied_discount_pct": 29.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 11
+    },
+    "hz-13738": {
+      "market_median_kzt": 189655000,
+      "implied_discount_pct": 27.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 9
+    },
+    "hz-13737": {
+      "market_median_kzt": 207647000,
+      "implied_discount_pct": 17.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 7
+    },
+    "hz-13735": {
+      "market_median_kzt": 98426000,
+      "implied_discount_pct": 27.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 9
+    },
+    "hz-13734": {
+      "market_median_kzt": 78205000,
+      "implied_discount_pct": 17.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 7
+    },
+    "hz-13732": {
+      "market_median_kzt": 99968000,
+      "implied_discount_pct": 21.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 11
+    },
+    "hz-13731": {
+      "market_median_kzt": 69735000,
+      "implied_discount_pct": 20.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 10
+    },
+    "hz-13730": {
+      "market_median_kzt": 98322000,
+      "implied_discount_pct": 21.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 11
+    },
+    "hz-13728": {
+      "market_median_kzt": 216585000,
+      "implied_discount_pct": 29.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 11
+    },
+    "hz-13699": {
+      "market_median_kzt": 23926000,
+      "implied_discount_pct": 24.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 6
+    },
+    "hz-13694": {
+      "market_median_kzt": 9572000,
+      "implied_discount_pct": 19.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 9
+    },
+    "hz-13688": {
+      "market_median_kzt": 11036000,
+      "implied_discount_pct": 20.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 10
+    },
+    "hz-13643": {
+      "market_median_kzt": 42387000,
+      "implied_discount_pct": 23.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-13635": {
+      "market_median_kzt": 57590000,
+      "implied_discount_pct": 20.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 10
+    },
+    "hz-13628": {
+      "market_median_kzt": 57856000,
+      "implied_discount_pct": 20.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 10
+    },
+    "hz-13619": {
+      "market_median_kzt": 109893000,
+      "implied_discount_pct": 25.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 7
+    },
+    "hz-13618": {
+      "market_median_kzt": 527021000,
+      "implied_discount_pct": 26.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 8
+    },
+    "hz-13610": {
+      "market_median_kzt": 15278000,
+      "implied_discount_pct": 28.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 10
+    },
+    "hz-13609": {
+      "market_median_kzt": 18072000,
+      "implied_discount_pct": 17.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 7
+    },
+    "hz-13574": {
+      "market_median_kzt": 61075000,
+      "implied_discount_pct": 29.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 11
+    },
+    "hz-13572": {
+      "market_median_kzt": 18421000,
+      "implied_discount_pct": 24.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 6
+    },
+    "hz-13569": {
+      "market_median_kzt": 19125000,
+      "implied_discount_pct": 20.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 10
+    },
+    "hz-13568": {
+      "market_median_kzt": 689215000,
+      "implied_discount_pct": 29.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 11
+    },
+    "hz-13540": {
+      "market_median_kzt": 15027000,
+      "implied_discount_pct": 25.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 7
+    },
+    "hz-13524": {
+      "market_median_kzt": 11624000,
+      "implied_discount_pct": 24.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 6
+    },
+    "hz-13435": {
+      "market_median_kzt": 3975000,
+      "implied_discount_pct": 20.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 10
+    },
+    "hz-13388": {
+      "market_median_kzt": 42092000,
+      "implied_discount_pct": 23.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-13279": {
+      "market_median_kzt": 67532000,
+      "implied_discount_pct": 23.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-13251": {
+      "market_median_kzt": 86045000,
+      "implied_discount_pct": 24.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 6
+    },
+    "hz-13250": {
+      "market_median_kzt": 41831000,
+      "implied_discount_pct": 29.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 11
+    },
+    "hz-13157": {
+      "market_median_kzt": 158312000,
+      "implied_discount_pct": 23.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-12964": {
+      "market_median_kzt": 42066000,
+      "implied_discount_pct": 26.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 8
+    },
+    "hz-12594": {
+      "market_median_kzt": 259740000,
+      "implied_discount_pct": 23.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-12573": {
+      "market_median_kzt": 25854000,
+      "implied_discount_pct": 18.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 8
+    },
+    "hz-12557": {
+      "market_median_kzt": 46719000,
+      "implied_discount_pct": 28.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 10
+    },
+    "hz-12555": {
+      "market_median_kzt": 33500000,
+      "implied_discount_pct": 20.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 10
+    },
+    "hz-12554": {
+      "market_median_kzt": 44930000,
+      "implied_discount_pct": 29.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 11
+    },
+    "hz-12553": {
+      "market_median_kzt": 34869000,
+      "implied_discount_pct": 24.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 6
+    },
+    "hz-12552": {
+      "market_median_kzt": 39136000,
+      "implied_discount_pct": 19.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 9
+    },
+    "hz-12521": {
+      "market_median_kzt": 174357000,
+      "implied_discount_pct": 18.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 8
+    },
+    "hz-12517": {
+      "market_median_kzt": 165895000,
+      "implied_discount_pct": 17.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 7
+    },
+    "hz-12442": {
+      "market_median_kzt": 188398000,
+      "implied_discount_pct": 19.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 9
+    },
+    "hz-12430": {
+      "market_median_kzt": 190195000,
+      "implied_discount_pct": 22.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 12
+    },
+    "hz-12419": {
+      "market_median_kzt": 211932000,
+      "implied_discount_pct": 30.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 12
+    },
+    "hz-12411": {
+      "market_median_kzt": 190631000,
+      "implied_discount_pct": 25.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 7
+    },
+    "hz-12395": {
+      "market_median_kzt": 175083000,
+      "implied_discount_pct": 20.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 10
+    },
+    "hz-12392": {
+      "market_median_kzt": 168754000,
+      "implied_discount_pct": 17.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 7
+    },
+    "hz-12389": {
+      "market_median_kzt": 175083000,
+      "implied_discount_pct": 20.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 10
+    },
+    "hz-12388": {
+      "market_median_kzt": 194536000,
+      "implied_discount_pct": 28.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 10
+    },
+    "hz-12385": {
+      "market_median_kzt": 164784000,
+      "implied_discount_pct": 15.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-12381": {
+      "market_median_kzt": 185440000,
+      "implied_discount_pct": 20.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 10
+    },
+    "hz-12375": {
+      "market_median_kzt": 198305000,
+      "implied_discount_pct": 23.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-12372": {
+      "market_median_kzt": 190869000,
+      "implied_discount_pct": 20.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 10
+    },
+    "hz-12358": {
+      "market_median_kzt": 193285000,
+      "implied_discount_pct": 21.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 11
+    },
+    "hz-12355": {
+      "market_median_kzt": 17197000,
+      "implied_discount_pct": 22.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 12
+    },
+    "hz-12354": {
+      "market_median_kzt": 4843000,
+      "implied_discount_pct": 24.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 6
+    },
+    "hz-12250": {
+      "market_median_kzt": 6963000,
+      "implied_discount_pct": 18.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 8
+    },
+    "hz-12221": {
+      "market_median_kzt": 3020000,
+      "implied_discount_pct": 21.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 11
+    },
+    "hz-8883": {
+      "market_median_kzt": 237595000,
+      "implied_discount_pct": 21.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 11
+    },
+    "hz-8436": {
+      "market_median_kzt": 72431000,
+      "implied_discount_pct": 15.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 5
+    },
+    "hz-8400": {
+      "market_median_kzt": 65432000,
+      "implied_discount_pct": 19.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 9
+    },
+    "hz-7773": {
+      "market_median_kzt": 34667000,
+      "implied_discount_pct": 16.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 6
+    },
+    "hz-7508": {
+      "market_median_kzt": 36190000,
+      "implied_discount_pct": 16.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 6
+    },
+    "hz-6920": {
+      "market_median_kzt": 23322000,
+      "implied_discount_pct": 18.0,
+      "method": "estimate_pending_edw",
+      "comparables_count": 8
+    }
+  }
+}

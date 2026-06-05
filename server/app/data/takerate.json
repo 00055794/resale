@@ -1,0 +1,27 @@
+{
+  "source": "HalykBank mortgage funnel, internal",
+  "as_of": "2026-05-31",
+  "may_2026": {
+    "applications": 1271,
+    "approved": 1226,
+    "accept_rate": 0.964,
+    "credits_issued": 901,
+    "disbursed_kzt": 14300000000,
+    "take_rate": 0.51
+  },
+  "series": [
+    { "month": "2025-05", "take_rate": 0.5560 },
+    { "month": "2025-06", "take_rate": 0.3485 },
+    { "month": "2025-07", "take_rate": 0.0408 },
+    { "month": "2025-08", "take_rate": 0.2669 },
+    { "month": "2025-09", "take_rate": 0.6644 },
+    { "month": "2025-10", "take_rate": 0.5425 },
+    { "month": "2025-11", "take_rate": 0.6655 },
+    { "month": "2025-12", "take_rate": 0.6774 },
+    { "month": "2026-01", "take_rate": 0.6853 },
+    { "month": "2026-02", "take_rate": 0.4751 },
+    { "month": "2026-03", "take_rate": 0.4477 },
+    { "month": "2026-04", "take_rate": 0.5029 },
+    { "month": "2026-05", "take_rate": 0.5100 }
+  ]
+}

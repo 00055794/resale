@@ -1,0 +1,13 @@
+name: Deploy
+on:
+  workflow_dispatch:
+  push:
+    tags: ["v*"]
+
+jobs:
+  staging:
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "Deploy step placeholder. Wire to registry + k8s/helm in production."

@@ -1,0 +1,11 @@
+{
+  "banks": [
+    { "code": "halyk",   "name": "HalykBank",   "rate": 0.165, "max_term_months": 240, "min_down_pct": 0.20, "fee_pct": 0.000 },
+    { "code": "kaspi",   "name": "Kaspi Bank",  "rate": 0.197, "max_term_months": 240, "min_down_pct": 0.30, "fee_pct": 0.005 },
+    { "code": "forte",   "name": "ForteBank",   "rate": 0.189, "max_term_months": 240, "min_down_pct": 0.25, "fee_pct": 0.003 },
+    { "code": "bcc",     "name": "Bank CenterCredit", "rate": 0.193, "max_term_months": 240, "min_down_pct": 0.25, "fee_pct": 0.004 },
+    { "code": "jusan",   "name": "Jusan Bank",  "rate": 0.205, "max_term_months": 180, "min_down_pct": 0.30, "fee_pct": 0.005 }
+  ],
+  "halyk_product_rate": 0.115,
+  "note": "Rates are illustrative and used to seed the comparison module. Replace with rate-card feed in production."
+}

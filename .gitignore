@@ -1,0 +1,19 @@
+node_modules/
+dist/
+build/
+.venv/
+__pycache__/
+*.pyc
+.env
+.env.local
+.DS_Store
+coverage/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.log
+*.tsbuildinfo
+# data scraping workdir (raw HTML is bulky; parsed JSON is committed)
+.scrape/
+# emitted TS output (sources are .ts/.tsx)
+web/src/**/*.js

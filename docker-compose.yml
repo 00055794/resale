@@ -1,0 +1,39 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: resale
+      POSTGRES_PASSWORD: resale
+      POSTGRES_DB: resale
+    ports: ["5432:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U resale"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  cache:
+    image: redis:7-alpine
+    ports: ["6379:6379"]
+
+  server:
+    build: ./server
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      DATABASE_URL: postgresql+psycopg://resale:resale@db:5432/resale
+      REDIS_URL: redis://cache:6379/0
+    depends_on:
+      db: { condition: service_healthy }
+      cache: { condition: service_started }
+    ports: ["8000:8000"]
+
+  web:
+    build: ./web
+    depends_on: [server]
+    ports: ["8080:80"]
+
+volumes:
+  pgdata:
