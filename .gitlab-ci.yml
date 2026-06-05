@@ -1,0 +1,63 @@
+# GitLab CI/CD — mirrors .github/workflows/ci.yml so the pipeline is green on the
+# bank's GitLab (Gitlab.halykbank.kz) used for code review. Lint + type-check +
+# unit tests for both server and web, then build & push images to the GitLab
+# Container Registry on main.
+
+stages:
+  - test
+  - build
+
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+  npm_config_cache: "$CI_PROJECT_DIR/.cache/npm"
+
+# ---------- Backend: ruff + mypy + pytest ----------
+server:test:
+  stage: test
+  image: python:3.11-slim
+  cache:
+    key: pip-$CI_COMMIT_REF_SLUG
+    paths: [".cache/pip"]
+  before_script:
+    - cd server
+    - pip install -r requirements-dev.txt
+  script:
+    - ruff check app tests
+    - mypy app
+    - pytest -q
+
+# ---------- Frontend: typecheck + vitest + build ----------
+web:test:
+  stage: test
+  image: node:20-alpine
+  cache:
+    key: npm-$CI_COMMIT_REF_SLUG
+    paths: [".cache/npm"]
+  before_script:
+    - cd web
+    - npm ci --no-audit --no-fund
+  script:
+    - npm run typecheck
+    - npm test
+    - npm run build
+  artifacts:
+    paths: ["web/dist"]
+    expire_in: 1 week
+
+# ---------- Build & push images to the GitLab registry (main only) ----------
+images:build:
+  stage: build
+  image: docker:27
+  services:
+    - docker:27-dind
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+  before_script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
+  script:
+    - docker build -t "$CI_REGISTRY_IMAGE/server:$CI_COMMIT_SHORT_SHA" -t "$CI_REGISTRY_IMAGE/server:latest" ./server
+    - docker build -t "$CI_REGISTRY_IMAGE/web:$CI_COMMIT_SHORT_SHA"    -t "$CI_REGISTRY_IMAGE/web:latest"    ./web
+    - docker push "$CI_REGISTRY_IMAGE/server:$CI_COMMIT_SHORT_SHA"
+    - docker push "$CI_REGISTRY_IMAGE/server:latest"
+    - docker push "$CI_REGISTRY_IMAGE/web:$CI_COMMIT_SHORT_SHA"
+    - docker push "$CI_REGISTRY_IMAGE/web:latest"

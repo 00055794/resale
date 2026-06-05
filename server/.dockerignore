@@ -1,0 +1,18 @@
+# Keep the Docker build context tiny and the layer cache valid.
+.venv
+__pycache__
+*.pyc
+.pytest_cache
+.mypy_cache
+.ruff_cache
+tests
+*.log
+.DS_Store
+Dockerfile
+.dockerignore
+.git
+.gitignore
+# Streamlit-only mirror (not used by the FastAPI image)
+app.py
+requirements-streamlit.txt
+requirements-dev.txt

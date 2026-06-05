@@ -1,0 +1,13 @@
+# --- ReSALE API runtime (FastAPI) ---
+# Lean, production-only dependencies for the HTTP API image. Deliberately does
+# NOT include Streamlit/pandas/pyarrow (see requirements-streamlit.txt) — those
+# pull ~150 MB of native wheels and add ~60-80s to every image build but are
+# only needed by the optional local Streamlit mirror (app.py).
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+pydantic==2.9.2
+pydantic-settings==2.5.2
+httpx==0.27.2
+python-multipart==0.0.9
+orjson==3.10.7
+prometheus-client==0.20.0

@@ -1,0 +1,14 @@
+# Keep the Docker build context tiny so `docker build ./web` is fast and the
+# layer cache stays valid. node_modules alone is hundreds of MB and is always
+# rebuilt inside the image via `npm ci`.
+node_modules
+dist
+coverage
+.vite
+*.log
+*.tsbuildinfo
+.DS_Store
+Dockerfile
+.dockerignore
+.git
+.gitignore

@@ -1,0 +1,29 @@
+{
+  "name": "ReSALE",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    "ghcr.io/devcontainers/features/python:1": { "version": "3.11" },
+    "ghcr.io/devcontainers/features/node:1": { "version": "20" }
+  },
+  "forwardPorts": [8080, 8000, 5173, 8501],
+  "portsAttributes": {
+    "8080": { "label": "Web (nginx)", "onAutoForward": "openBrowser" },
+    "8000": { "label": "API (FastAPI /docs)", "onAutoForward": "notify" },
+    "5173": { "label": "Web dev (Vite)", "onAutoForward": "silent" },
+    "8501": { "label": "Streamlit mirror", "onAutoForward": "silent" }
+  },
+  "onCreateCommand": "docker compose pull || true",
+  "postStartCommand": "docker compose up -d --build",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "charliermarsh.ruff",
+        "dbaeumer.vscode-eslint",
+        "ms-azuretools.vscode-docker"
+      ]
+    }
+  }
+}
