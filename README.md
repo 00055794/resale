@@ -41,8 +41,8 @@ open resale/report/index1.html     # финальный дашборд для п
 The final pitch dashboard renders directly from the committed HTML — click to open
 in any browser (no install, no GitHub Pages toggle required):
 
-- **Final pitch dashboard:** https://htmlpreview.github.io/?https://github.com/00055794/resale/blob/main/report/index1.html
-- **Overview dashboard:** https://htmlpreview.github.io/?https://github.com/00055794/resale/blob/main/report/index.html
+- **Final pitch dashboard:** https://htmlpreview.github.io/?https://github.com/gulikz/resale/blob/main/report/index1.html
+- **Overview dashboard:** https://htmlpreview.github.io/?https://github.com/gulikz/resale/blob/main/report/index.html
 
 The two dashboards are cross-linked (header button «Финальный дашборд →» /
 «← Обзорный дашборд»), so you can switch between them with one click.
@@ -50,8 +50,8 @@ The two dashboards are cross-linked (header button «Финальный дашб
 GitHub Pages alternative (after enabling once: repo **Settings → Pages → Source:
 GitHub Actions**, published by `.github/workflows/pages.yml`):
 
-- Overview: `https://00055794.github.io/resale/`
-- Final pitch dashboard: `https://00055794.github.io/resale/index1.html`
+- Overview: `https://gulikz.github.io/resale/`
+- Final pitch dashboard: `https://gulikz.github.io/resale/index1.html`
 
 ### Run with Docker (full stack)
 
