@@ -36,6 +36,18 @@ open resale/report/index.html      # обзорный дашборд (3-page alb
 open resale/report/index1.html     # финальный дашборд для питча
 ```
 
+### View the dashboard online (GitHub Pages)
+
+The `report/` folder is published automatically by `.github/workflows/pages.yml`.
+After enabling Pages once (repo **Settings → Pages → Source: GitHub Actions**), the
+dashboards open in any browser:
+
+- Overview: `https://gulikz.github.io/resale/`
+- Final pitch dashboard: `https://gulikz.github.io/resale/index1.html`
+
+No-setup alternative (renders the committed HTML directly):
+`https://htmlpreview.github.io/?https://github.com/gulikz/resale/blob/main/report/index1.html`
+
 ### Run with Docker (full stack)
 
 ```

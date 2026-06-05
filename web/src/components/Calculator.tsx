@@ -94,7 +94,9 @@ export default function Calculator({ objectPrice }: Props) {
             <thead>
               <tr>
                 <th>Банк</th>
-                <th>Ставка</th>
+                <th>Ставка / ГЭСВ</th>
+                <th>Взнос</th>
+                <th>Срок</th>
                 <th>Платёж/мес</th>
                 <th>Переплата</th>
               </tr>
@@ -113,7 +115,12 @@ export default function Calculator({ objectPrice }: Props) {
                         {s.bank_name}
                         {best && <span className="badge green">Лучшее предложение</span>}
                       </td>
-                      <td>{formatPct(s.rate)}</td>
+                      <td>
+                        {formatPct(s.rate)}{" "}
+                        <span className="muted">/ {formatPct(s.effective_annual_rate)}</span>
+                      </td>
+                      <td>{formatKzt(s.down_payment_applied)}</td>
+                      <td>{Math.round(s.term_months / 12)} лет</td>
                       <td className={affordable ? "ok" : "warn"}>
                         {formatKzt(s.monthly_payment)}
                       </td>
@@ -124,8 +131,9 @@ export default function Calculator({ objectPrice }: Props) {
             </tbody>
           </table>
           <p className="muted">
-            Ставки других банков приведены для сравнения. HalykBank остаётся лучшим
-            предложением по платежу.
+            ГЭСВ — годовая эффективная ставка вознаграждения (включает комиссии). Каждый банк
+            применяет свой минимальный взнос и срок, поэтому суммы взноса и переплаты
+            различаются. HalykBank остаётся лучшим предложением по платежу.
           </p>
         </div>
       )}

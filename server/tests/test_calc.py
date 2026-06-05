@@ -1,6 +1,7 @@
 from app.calc import (
     annuity_payment,
     effect_scenarios,
+    effective_annual_rate,
     max_affordable_payment,
     mortgage_scenario,
 )
@@ -25,6 +26,32 @@ def test_mortgage_scenario_overpayment_positive():
     assert s.monthly_payment > 0
     assert s.overpayment > 0
     assert s.total_paid > 16_000_000
+    # Down payment is reported back transparently; principal = price - down (no fee).
+    assert s.down_payment_applied == 4_000_000
+    assert s.principal == 16_000_000
+    assert s.financed_fee == 0.0
+
+
+def test_mortgage_scenario_financed_fee_raises_effective_rate():
+    no_fee = mortgage_scenario(
+        bank_code="a", bank_name="A", object_price=20_000_000, down_payment=5_000_000,
+        annual_rate=0.18, term_months=240, fee_pct=0.0,
+    )
+    with_fee = mortgage_scenario(
+        bank_code="b", bank_name="B", object_price=20_000_000, down_payment=5_000_000,
+        annual_rate=0.18, term_months=240, fee_pct=0.01,
+    )
+    # A financed fee increases principal and the true cost (ГЭСВ).
+    assert with_fee.financed_fee > 0
+    assert with_fee.principal > no_fee.principal
+    assert with_fee.effective_annual_rate > no_fee.effective_annual_rate
+
+
+def test_effective_annual_rate_above_nominal():
+    # ГЭСВ from monthly compounding exceeds the nominal annual rate.
+    pmt = annuity_payment(16_000_000, 0.165, 240)
+    eff = effective_annual_rate(16_000_000, pmt, 240)
+    assert 0.165 < eff < 0.185
 
 
 def test_max_affordable_payment_includes_coborrower():

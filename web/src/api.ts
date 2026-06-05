@@ -43,7 +43,11 @@ export type MortgageScenario = {
   bank_code: string;
   bank_name: string;
   rate: number;
+  effective_annual_rate: number;
   term_months: number;
+  down_payment_applied: number;
+  principal: number;
+  financed_fee: number;
   monthly_payment: number;
   total_paid: number;
   overpayment: number;

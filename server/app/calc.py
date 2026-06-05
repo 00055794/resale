@@ -12,7 +12,11 @@ class MortgageScenario:
     bank_code: str
     bank_name: str
     rate: float
+    effective_annual_rate: float
     term_months: int
+    down_payment_applied: float
+    principal: float
+    financed_fee: float
     monthly_payment: float
     total_paid: float
     overpayment: float
@@ -29,6 +33,24 @@ def annuity_payment(principal: float, annual_rate: float, term_months: int) -> f
     return principal * factor
 
 
+def effective_annual_rate(net_loan: float, monthly_payment: float, term_months: int) -> float:
+    """Годовая эффективная ставка (ГЭСВ): the annual rate whose present value of
+    payments equals the net amount actually lent (excludes the financed fee).
+    Solved by bisection on the monthly rate."""
+    if net_loan <= 0 or monthly_payment <= 0 or term_months <= 0:
+        return 0.0
+    lo, hi = 1e-9, 1.0
+    for _ in range(100):
+        mid = (lo + hi) / 2.0
+        pv = monthly_payment * (1.0 - (1.0 + mid) ** (-term_months)) / mid
+        if pv > net_loan:
+            lo = mid
+        else:
+            hi = mid
+    monthly = (lo + hi) / 2.0
+    return (1.0 + monthly) ** 12 - 1.0
+
+
 def mortgage_scenario(
     *,
     bank_code: str,
@@ -39,17 +61,24 @@ def mortgage_scenario(
     term_months: int,
     fee_pct: float = 0.0,
 ) -> MortgageScenario:
-    principal = max(0.0, object_price - down_payment) * (1.0 + fee_pct)
+    net_loan = max(0.0, object_price - down_payment)
+    financed_fee = net_loan * fee_pct
+    principal = net_loan + financed_fee
     pmt = annuity_payment(principal, annual_rate, term_months)
     total = pmt * term_months
+    eff = effective_annual_rate(net_loan, pmt, term_months)
     return MortgageScenario(
         bank_code=bank_code,
         bank_name=bank_name,
         rate=annual_rate,
+        effective_annual_rate=round(eff, 4),
         term_months=term_months,
+        down_payment_applied=round(down_payment, 2),
+        principal=round(principal, 2),
+        financed_fee=round(financed_fee, 2),
         monthly_payment=round(pmt, 2),
         total_paid=round(total, 2),
-        overpayment=round(total - principal, 2),
+        overpayment=round(total - net_loan, 2),
     )
 
 

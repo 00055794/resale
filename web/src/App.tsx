@@ -6,7 +6,30 @@ import ObjectModal from "./components/ObjectModal";
 import SubscriptionPanel from "./components/SubscriptionPanel";
 import LoginBar, { type Session } from "./components/LoginBar";
 
-const CITIES = ["", "Алматы", "Астана", "Шымкент", "Караганда", "Атырау"];
+const CITIES = [
+  "",
+  "Алматы",
+  "Астана",
+  "Шымкент",
+  "Караганда",
+  "Атырау",
+  "Актобе",
+  "Актау",
+  "Павлодар",
+  "Петропавловск",
+  "Кокшетау",
+  "Уральск",
+  "Костанай",
+  "Тараз",
+  "Кызылорда",
+  "Семей",
+  "Усть-Каменогорск",
+  "Темиртау",
+  "Экибастуз",
+  "Жезказган",
+];
+
+const PAGE_SIZE = 60;
 
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -18,6 +41,8 @@ export default function App() {
   const [geo, setGeo] = useState<{ lat: number; lng: number } | null>(null);
   const [view, setView] = useState<"list" | "map">("list");
   const [items, setItems] = useState<Flat[]>([]);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selected, setSelected] = useState<Flat | null>(null);
@@ -30,6 +55,11 @@ export default function App() {
   useEffect(() => {
     if (session) setIncome((v) => v || String(session.income));
   }, [session]);
+
+  // Reset to the first page whenever any filter changes.
+  useEffect(() => {
+    setPage(1);
+  }, [city, rooms, priceMax, income, iinRegion, geo]);
 
   useEffect(() => {
     let cancelled = false;
@@ -44,15 +74,21 @@ export default function App() {
       lat: geo?.lat,
       lng: geo?.lng,
       radius_km: geo ? 1000 : undefined,
-      size: 60,
+      page,
+      size: PAGE_SIZE,
     })
-      .then((d) => !cancelled && setItems(d.items))
+      .then((d) => {
+        if (cancelled) return;
+        setTotal(d.total);
+        // Page 1 replaces the list; later pages append ("показать ещё").
+        setItems((prev) => (page === 1 ? d.items : [...prev, ...d.items]));
+      })
       .catch((e) => !cancelled && setError(String(e)))
       .finally(() => !cancelled && setLoading(false));
     return () => {
       cancelled = true;
     };
-  }, [city, rooms, priceMax, income, iinRegion, geo]);
+  }, [city, rooms, priceMax, income, iinRegion, geo, page]);
 
   const avgDiscount = useMemo(() => {
     if (!items.length) return 0;
@@ -93,7 +129,7 @@ export default function App() {
       <div className="stats-row">
         <div className="stat">
           <span className="muted">Объектов</span>
-          <strong>{items.length}</strong>
+          <strong>{total}</strong>
         </div>
         <div className="stat">
           <span className="muted">Средний дисконт</span>
@@ -207,6 +243,18 @@ export default function App() {
         </div>
       ) : (
         <MapView items={items} onSelect={setSelected} />
+      )}
+
+      {view === "list" && items.length < total && (
+        <div className="load-more">
+          <button
+            className="btn ghost"
+            onClick={() => setPage((p) => p + 1)}
+            disabled={loading}
+          >
+            {loading ? "Загрузка..." : `Показать ещё (${items.length} из ${total})`}
+          </button>
+        </div>
       )}
 
       <SubscriptionPanel onSubscribe={addReminder} />
