@@ -103,16 +103,32 @@ export default function Calculator({ objectPrice }: Props) {
               result.scenarios.find((s) => s.bank_code === result.best_bank) ??
               result.scenarios[0];
             const totalIncome = income + coIncome;
-            const fits = halyk.monthly_payment <= result.affordable_monthly_payment;
+            // Affordable monthly payment from income (КДН/DTI limit). This is the
+            // installment the borrower can service and it moves with income and
+            // co-borrower income.
+            const affordablePayment = result.affordable_monthly_payment;
+            const fits = halyk.monthly_payment <= affordablePayment;
             const kdn = totalIncome > 0 ? halyk.monthly_payment / totalIncome : 0;
             const minIncome = halyk.monthly_payment / DTI;
+            // Inverse annuity: max loan HalykBank can service for that affordable
+            // payment at the current rate and term -> max object price by income.
+            const i = halyk.rate / 12;
+            const n = halyk.term_months;
+            const maxLoan =
+              i > 0 ? (affordablePayment * (1 - Math.pow(1 + i, -n))) / i : affordablePayment * n;
+            const maxObjectPrice =
+              downPct < 100 ? maxLoan / (1 - downPct / 100) : maxLoan;
             return (
               <>
                 <div className={`afford-verdict ${fits ? "ok" : "warn"}`}>
                   <p>
                     Платёж HalykBank: <strong>{formatKzt(halyk.monthly_payment)}</strong> / мес ·
-                    доступно по доходу (КДН {Math.round(DTI * 100)}%):{" "}
-                    <strong>{formatKzt(result.affordable_monthly_payment)}</strong>
+                    комфортный платёж по доходу (КДН {Math.round(DTI * 100)}%):{" "}
+                    <strong>{formatKzt(affordablePayment)}</strong>
+                  </p>
+                  <p>
+                    По вашему доходу HalykBank профинансирует объект примерно до{" "}
+                    <strong>{formatKzt(maxObjectPrice)}</strong>
                   </p>
                   <p className="muted">
                     {fits
@@ -125,9 +141,10 @@ export default function Calculator({ objectPrice }: Props) {
                   </p>
                 </div>
                 <p className="muted">
-                  Платёж зависит от взноса, срока и ставки. Доход и доход созаёмщика
-                  определяют доступный лимит (КДН), а не сам платёж. Лимиты HalykBank:
-                  взнос от {HALYK_MIN_DOWN_PCT}%, срок до {HALYK_MAX_TERM_YEARS} лет.
+                  Платёж банка по выбранному объекту зависит от взноса, срока и ставки.
+                  Доход и доход созаёмщика задают комфортный платёж (КДН) и максимальную
+                  сумму финансирования. Лимиты HalykBank: взнос от {HALYK_MIN_DOWN_PCT}%,
+                  срок до {HALYK_MAX_TERM_YEARS} лет.
                 </p>
               </>
             );

@@ -156,8 +156,7 @@ export default function ObjectModal({ flat, onClose, onReminder }: Props) {
                     </div>
                   </div>
                   <div className="savings-banner">
-                    Дисконт <strong>{comparison.discount_pct}%</strong>. Источник:{" "}
-                    {comparison.source}
+                    Дисконт <strong>{comparison.discount_pct}%</strong>
                   </div>
                   <table className="banks-table">
                     <thead>
