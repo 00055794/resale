@@ -4,6 +4,10 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>ReSALE — Аналитический отчёт и прототип</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <style>
   :root{
     --green:#008465; --green-dark:#006a51; --green-soft:rgba(0,132,101,.10);
@@ -269,6 +273,13 @@
   .gmap .gbtns{position:absolute;right:8px;top:8px;display:flex;flex-direction:column;gap:4px}
   .gmap .gbtns b{width:26px;height:26px;background:#fff;border-radius:6px;box-shadow:0 2px 6px rgba(0,0,0,.2);
     display:flex;align-items:center;justify-content:center;font-size:15px;color:#475569}
+  /* Real Leaflet map inside the phone prototype */
+  #protoMap{height:280px;border-radius:14px;overflow:hidden;border:1px solid var(--border);z-index:0}
+  #protoMap .leaflet-control-attribution{font-size:9px}
+  .price-pin{background:#fff;color:var(--green-dark);font-size:11px;font-weight:800;
+    padding:3px 8px;border-radius:999px;white-space:nowrap;border:1px solid #e2e8f0;
+    box-shadow:0 4px 10px rgba(0,0,0,.28);cursor:pointer}
+  .price-pin.sel{background:var(--green);color:#fff;border-color:var(--green)}
   /* Treemap */
   .treemap{position:relative;flex:1;min-height:0;margin-top:4px}
   .tm-cell{position:absolute;border-radius:10px;color:#fff;padding:7px 9px;overflow:hidden;cursor:pointer;
@@ -368,9 +379,10 @@
 <section class="page" id="page2">
   <span class="section-tag">Страница 2 · Прототип модели</span>
   <h1>Кликабельный мобильный прототип</h1>
-  <p class="lead">Сценарий: вход через Homebank → каталог → карточка → AI-отчёт → калькулятор →
-    «Оставить заявку» (аукцион) → напоминания и подписка → шеринг в WhatsApp.
-    Тапайте по элементам прототипа или используйте шаги справа.</p>
+  <p class="lead">Сценарий: вход через Homebank → каталог (список и карта) → карточка ·
+    Обзор с AI-отчётом → Сравнение цен → калькулятор → «Оставить заявку» (аукцион) →
+    напоминания и подписка → шеринг в WhatsApp. Тапайте по элементам прототипа
+    или используйте шаги справа.</p>
 
   <div class="stage">
     <div class="phone" aria-label="Мобильный прототип">
@@ -409,64 +421,58 @@
               </div>
               <div id="catalogList">
                 <div class="ccard" data-go="object"><div class="ph">
-                  <img class="thumb" src="assets/flats/mametova-1.jpg" alt="Маметовой, 47/51" loading="lazy" />
-                  <div class="chip">Проверено банком</div><div class="disc">-22%</div><div class="addr">Алматы, Маметовой, 47/51</div></div>
-                  <div class="meta"><div class="price">56 674 600 ₸</div><div class="sub">3 комн · 72.6 м² · Алматы</div></div></div>
-                <div class="ccard" data-go="object"><div class="ph">
-                  <img class="thumb" src="assets/flats/kashgarskaya.jpg" alt="Кашгарская, 3" loading="lazy" />
-                  <div class="chip">Проверено банком</div><div class="disc">-24%</div><div class="addr">Алматы, Кашгарская, 3</div></div>
-                  <div class="meta"><div class="price">46 071 800 ₸</div><div class="sub">3 комн · 57.5 м² · Алматы</div></div></div>
-                <div class="ccard" data-go="object"><div class="ph">
-                  <img class="thumb" src="assets/flats/zhetysu.jpg" alt="мкр. Жетысу-4, 5" loading="lazy" />
-                  <div class="chip">Проверено банком</div><div class="disc">-21%</div><div class="addr">Алматы, мкр. Жетысу-4, 5</div></div>
-                  <div class="meta"><div class="price">44 638 200 ₸</div><div class="sub">2 комн · 58.9 м² · Алматы</div></div></div>
-                <div class="ccard" data-go="object"><div class="ph">
-                  <img class="thumb" src="assets/flats/sibirskaya.jpg" alt="Сибирская, 89" loading="lazy" />
-                  <div class="chip">Проверено банком</div><div class="disc">-19%</div><div class="addr">Павлодар, Сибирская, 89</div></div>
+                  <img class="thumb" src="https://halykzalog.kz/uploads/product_images/2026/06/src_05_6a226819480d9.jpg" alt="Сибирская 89" loading="lazy" onerror="this.onerror=null;this.src='assets/flats/sibirskaya.jpg'" />
+                  <div class="chip">Проверено банком</div><div class="disc">-17%</div><div class="addr">Павлодар, Сибирская 89</div></div>
                   <div class="meta"><div class="price">23 594 000 ₸</div><div class="sub">3 комн · 65.8 м² · Павлодар</div></div></div>
                 <div class="ccard" data-go="object"><div class="ph">
-                  <img class="thumb" src="assets/flats/vodnik.jpg" alt="мкр. Водник-3, 97" loading="lazy" />
-                  <div class="chip">Имущество банка</div><div class="disc">-27%</div><div class="addr">Илийский р-н, Водник-3, 97</div></div>
-                  <div class="meta"><div class="price">14 000 000 ₸</div><div class="sub">1 комн · 40.2 м² · Алматинская обл</div></div></div>
-                <div class="ccard" data-go="object"><div class="ph">
-                  <img class="thumb" src="assets/flats/abaya.jpg" alt="Абая, 110/1" loading="lazy" />
-                  <div class="chip">Проверено банком</div><div class="disc">-23%</div><div class="addr">Павлодар, Абая, 110/1</div></div>
+                  <img class="thumb" src="https://halykzalog.kz/uploads/product_images/2026/06/src_05_6a226406b7c62.jpg" alt="Абая 110/1" loading="lazy" onerror="this.onerror=null;this.src='assets/flats/abaya.jpg'" />
+                  <div class="chip">Проверено банком</div><div class="disc">-20%</div><div class="addr">Павлодар, Абая 110/1</div></div>
                   <div class="meta"><div class="price">99 283 000 ₸</div><div class="sub">7 комн · 272.1 м² · евроремонт</div></div></div>
+                <div class="ccard" data-go="object"><div class="ph">
+                  <img class="thumb" src="https://halykzalog.kz/uploads/product_images/2026/04/src_30_69f324f163d36.jpg" alt="Едыге Би 63" loading="lazy" onerror="this.onerror=null;this.src='assets/flats/kashgarskaya.jpg'" />
+                  <div class="chip">Проверено банком</div><div class="disc">-26%</div><div class="addr">Павлодар, Едыге Би 63</div></div>
+                  <div class="meta"><div class="price">22 450 900 ₸</div><div class="sub">3 комн · 59.3 м² · Павлодар</div></div></div>
+                <div class="ccard" data-go="object"><div class="ph">
+                  <img class="thumb" src="https://halykzalog.kz/uploads/product_images/2026/05/src_08_69fd7f3726733.jpg" alt="Жамбыла Жабаева 148/50" loading="lazy" onerror="this.onerror=null;this.src='assets/flats/zhetysu.jpg'" />
+                  <div class="chip">Проверено банком</div><div class="disc">-27%</div><div class="addr">Кокшетау, Жамбыла Жабаева 148/50</div></div>
+                  <div class="meta"><div class="price">32 539 000 ₸</div><div class="sub">10 комн · 196.2 м² · Кокшетау</div></div></div>
+                <div class="ccard" data-go="object"><div class="ph">
+                  <img class="thumb" src="https://halykzalog.kz/uploads/product_images/2026/02/src_05_6984389894cf3.jpg" alt="Б. Момышулы 69" loading="lazy" onerror="this.onerror=null;this.src='assets/flats/mametova-2.jpg'" />
+                  <div class="chip">Проверено банком</div><div class="disc">-25%</div><div class="addr">Кокшетау, Б. Момышулы 69</div></div>
+                  <div class="meta"><div class="price">48 307 000 ₸</div><div class="sub">4 комн · 129.3 м² · Кокшетау</div></div></div>
+                <div class="ccard" data-go="object"><div class="ph">
+                  <img class="thumb" src="https://halykzalog.kz/uploads/product_images/2026/02/src_05_698435a60345c.jpg" alt="мкр. Васильковский 35" loading="lazy" onerror="this.onerror=null;this.src='assets/flats/vodnik.jpg'" />
+                  <div class="chip">Проверено банком</div><div class="disc">-29%</div><div class="addr">Кокшетау, мкр. Васильковский 35</div></div>
+                  <div class="meta"><div class="price">24 050 000 ₸</div><div class="sub">4 комн · 84.8 м² · Кокшетау</div></div></div>
+                <div class="ccard" data-go="object"><div class="ph">
+                  <img class="thumb" src="https://halykzalog.kz/uploads/product_images/2026/05/src_19_6a0c192704460.jpg" alt="Аманжол Бөлекпаев 14" loading="lazy" onerror="this.onerror=null;this.src='assets/flats/mametova-3.jpg'" />
+                  <div class="chip">Проверено банком</div><div class="disc">-24%</div><div class="addr">Астана, Аманжол Бөлекпаев 14</div></div>
+                  <div class="meta"><div class="price">43 000 000 ₸</div><div class="sub">4 комн · 93.3 м² · Астана</div></div></div>
+                <div class="ccard" data-go="object"><div class="ph">
+                  <img class="thumb" src="https://halykzalog.kz/uploads/product_images/2026/04/src_10_69d88bcb31622.jpg" alt="Г. Мустафина 21/5" loading="lazy" onerror="this.onerror=null;this.src='assets/flats/mametova-1.jpg'" />
+                  <div class="chip">Проверено банком</div><div class="disc">-21%</div><div class="addr">Астана, Г. Мустафина 21/5</div></div>
+                  <div class="meta"><div class="price">27 682 500 ₸</div><div class="sub">2 комн · 58.9 м² · Астана</div></div></div>
+                <div class="ccard" data-go="object"><div class="ph">
+                  <img class="thumb" src="https://halykzalog.kz/uploads/product_images/2026/01/src_05_695b98b71e5cf.jpg" alt="Ж. Нажимеденов 39" loading="lazy" onerror="this.onerror=null;this.src='assets/flats/kashgarskaya.jpg'" />
+                  <div class="chip">Проверено банком</div><div class="disc">-23%</div><div class="addr">Астана, Ж. Нажимеденов 39</div></div>
+                  <div class="meta"><div class="price">42 100 000 ₸</div><div class="sub">3 комн · 102.9 м² · Астана</div></div></div>
+                <div class="ccard" data-go="object"><div class="ph">
+                  <img class="thumb" src="https://halykzalog.kz/uploads/product_images/2026/03/src_03_69a6bd740a830.jpg" alt="мкр. Аксай-4, 16" loading="lazy" onerror="this.onerror=null;this.src='assets/flats/zhetysu.jpg'" />
+                  <div class="chip">Проверено банком</div><div class="disc">-26%</div><div class="addr">Алматы, мкр. Аксай-4, 16</div></div>
+                  <div class="meta"><div class="price">43 834 000 ₸</div><div class="sub">3 комн · 66.3 м² · Алматы</div></div></div>
+                <div class="ccard" data-go="object"><div class="ph">
+                  <img class="thumb" src="https://halykzalog.kz/uploads/product_images/2026/02/src_05_698464cbba43b.jpg" alt="Клочкова 166" loading="lazy" onerror="this.onerror=null;this.src='assets/flats/mametova-2.jpg'" />
+                  <div class="chip">Проверено банком</div><div class="disc">-25%</div><div class="addr">Алматы, Клочкова 166</div></div>
+                  <div class="meta"><div class="price">56 955 900 ₸</div><div class="sub">4 комн · 73.1 м² · Алматы</div></div></div>
+                <div class="ccard" data-go="object"><div class="ph">
+                  <img class="thumb" src="https://halykzalog.kz/uploads/product_images/2026/02/src_04_6982e05ada30c.jpg" alt="Н. Каппарова 38" loading="lazy" onerror="this.onerror=null;this.src='assets/flats/abaya.jpg'" />
+                  <div class="chip">Проверено банком</div><div class="disc">-25%</div><div class="addr">Алматы, Н. Каппарова 38</div></div>
+                  <div class="meta"><div class="price">217 310 000 ₸</div><div class="sub">5 комн · 189.6 м² · евроремонт</div></div></div>
               </div>
 
               <div id="catalogMap" style="display:none">
-                <div class="gmap">
-                  <svg viewBox="0 0 320 280" preserveAspectRatio="xMidYMid slice">
-                    <rect width="320" height="280" fill="#eaf0f2"/>
-                    <path d="M0 0 H126 V64 Q92 92 58 80 Q22 70 0 96 Z" fill="#cdeccb"/>
-                    <path d="M214 -10 C 238 60, 198 118, 250 188 C 272 232, 250 290, 305 296 L320 296 L320 -10 Z" fill="#a9dcf0"/>
-                    <g fill="#e2e8ec">
-                      <rect x="18" y="120" width="60" height="40" rx="3"/><rect x="90" y="120" width="50" height="40" rx="3"/>
-                      <rect x="18" y="172" width="50" height="46" rx="3"/><rect x="80" y="172" width="60" height="46" rx="3"/>
-                      <rect x="152" y="120" width="42" height="38" rx="3"/><rect x="152" y="170" width="46" height="48" rx="3"/>
-                      <rect x="36" y="232" width="72" height="40" rx="3"/>
-                    </g>
-                    <g stroke="#ffffff" stroke-width="10" fill="none" stroke-linecap="round">
-                      <path d="M0 110 H320"/><path d="M0 165 H205"/><path d="M0 225 H150"/>
-                      <path d="M85 0 V280"/><path d="M148 100 V280"/>
-                    </g>
-                    <g stroke="#fde68a" stroke-width="7" fill="none" stroke-linecap="round">
-                      <path d="M0 110 H320"/><path d="M148 100 V280"/>
-                    </g>
-                  </svg>
-                  <div class="glabel" style="left:38%;top:36%">пр. Аль-Фараби</div>
-                  <div class="glabel" style="left:64%;top:43%;transform:translate(-50%,-50%) rotate(90deg)">ул. Сатпаева</div>
-                  <div class="gmark sel" data-go="object" style="left:24%;top:47%">56.7 млн ₸</div>
-                  <div class="gmark" data-go="object" style="left:47%;top:40%">46.1 млн ₸</div>
-                  <div class="gmark" data-go="object" style="left:64%;top:60%">44.6 млн ₸</div>
-                  <div class="gmark" data-go="object" style="left:33%;top:73%">23.6 млн ₸</div>
-                  <div class="gmark" data-go="object" style="left:74%;top:33%">14.0 млн ₸</div>
-                  <div class="gmark" data-go="object" style="left:18%;top:62%">99.3 млн ₸</div>
-                  <div class="gmark cluster" style="left:55%;top:82%">+18 объектов</div>
-                  <div class="gbtns"><b>+</b><b>−</b></div>
-                  <div class="gattr">Карта · Google</div>
-                </div>
-                <div class="footnote" style="margin-top:8px">Google Maps · 756 объектов с кластеризацией по цене и району</div>
+                <div id="protoMap" aria-label="Карта залоговых объектов"></div>
+                <div class="footnote" style="margin-top:8px">OpenStreetMap · реальные координаты объектов halykzalog.kz · клик по метке открывает карточку</div>
               </div>
 
             </div>
@@ -502,7 +508,7 @@
               <div class="row"><span class="k">Этаж</span><span class="v">2 из 9</span></div>
               <div class="row"><span class="k">Год</span><span class="v">1971 · чистовая</span></div>
               <div class="row last"><span class="k">Адрес</span><span class="v">Алматы, Алмалинский р-н</span></div>
-              <button class="cta" data-go="ai">Открыть AI-отчёт</button>
+              <button class="cta" data-go="ai">Открыть AI-отчёт (в Обзоре)</button>
               <button class="cta ghost" data-go="calc">Калькулятор ипотеки</button>
               <button class="cta y" data-go="auction">Оставить заявку (аукцион)</button>
             </div>
@@ -511,7 +517,7 @@
           <!-- 4. AI report -->
           <div class="scr" data-id="ai">
             <div class="statusbar"><span>9:41</span><span>● ●●</span></div>
-            <div class="appbar"><button class="back" data-go="object">‹</button><span>AI-отчёт</span><span></span></div>
+            <div class="appbar"><button class="back" data-go="object">‹</button><span>Обзор · AI-отчёт</span><span></span></div>
             <div class="scrbody">
               <div class="ai">
                 <div class="h"><span class="d"></span>GenAI · персонализация под профиль</div>
@@ -651,8 +657,8 @@
       <div class="step-list" id="steps">
         <div class="step active" data-step="home"><div class="n">1</div><div><div class="t">Homebank · Сервисы</div><div class="d">SSO, баннер ReSALE</div></div></div>
         <div class="step" data-step="catalog"><div class="n">2</div><div><div class="t">Каталог: список и карта</div><div class="d">Фильтры по доходу, ИИН-региону, геотегу</div></div></div>
-        <div class="step" data-step="object"><div class="n">3</div><div><div class="t">Карточка объекта</div><div class="d">Проверено банком, сравнение с krisha.kz</div></div></div>
-        <div class="step" data-step="ai"><div class="n">4</div><div><div class="t">AI-отчёт</div><div class="d">Персональные метрики и риск</div></div></div>
+        <div class="step" data-step="object"><div class="n">3</div><div><div class="t">Карточка · Обзор</div><div class="d">Проверено банком, фото, экономия vs рынок</div></div></div>
+        <div class="step" data-step="ai"><div class="n">4</div><div><div class="t">AI-отчёт в Обзоре</div><div class="d">Метрики, риск-скор, доходность</div></div></div>
         <div class="step" data-step="calc"><div class="n">5</div><div><div class="t">Калькулятор</div><div class="d">Со-заёмщик, сравнение банков</div></div></div>
         <div class="step" data-step="auction"><div class="n">6</div><div><div class="t">Аукцион</div><div class="d">Оставить заявку, скидка на повтор</div></div></div>
         <div class="step" data-step="success"><div class="n">7</div><div><div class="t">Заявка принята</div><div class="d">CBS-черновик ипотеки создан</div></div></div>
@@ -663,8 +669,9 @@
     </div>
   </div>
 
-  <p class="footnote">Прототип работает офлайн: открывается двойным кликом по файлу без сервера и сборки.
-    Все интеграции (SSO, CBS, Google Maps, krisha.kz, GenAI) подменены mock-адаптерами в server/app/integrations.py.</p>
+  <p class="footnote">Прототип открывается двойным кликом по файлу без сервера и сборки. Фото объектов и карта
+    (OpenStreetMap) подгружаются с halykzalog.kz и OSM при наличии сети; офлайн фото берутся из локального
+    набора, карта недоступна. Все интеграции (SSO, CBS, krisha.kz, GenAI) подменены mock-адаптерами в server/app/integrations.py.</p>
 </section>
 
 <!-- ============ PAGE 3: REALITY ============ -->
@@ -1063,10 +1070,46 @@ document.addEventListener("click", e=>{
     seg.classList.add("active");
     const list = document.getElementById("catalogList");
     const map = document.getElementById("catalogMap");
-    if(seg.dataset.seg==="map"){ list.style.display="none"; map.style.display=""; }
+    if(seg.dataset.seg==="map"){ list.style.display="none"; map.style.display=""; initProtoMap(); }
     else { list.style.display=""; map.style.display="none"; }
   }
 });
+
+// Real interactive map of collateral objects (real halykzalog.kz coordinates).
+const PROTO_FLATS = [
+  {addr:"Павлодар, Сибирская 89", price:"23.6 млн ₸", lat:52.2933, lng:77.013266},
+  {addr:"Павлодар, Абая 110/1", price:"99.3 млн ₸", lat:52.283639, lng:76.954312},
+  {addr:"Павлодар, Едыге Би 63", price:"22.5 млн ₸", lat:52.293888, lng:76.94996},
+  {addr:"Кокшетау, Жамбыла Жабаева 148/50", price:"32.5 млн ₸", lat:53.273641, lng:69.411249},
+  {addr:"Кокшетау, Б. Момышулы 69", price:"48.3 млн ₸", lat:53.279183, lng:69.379724},
+  {addr:"Кокшетау, мкр. Васильковский 35", price:"24.1 млн ₸", lat:53.311578, lng:69.388935},
+  {addr:"Астана, Аманжол Бөлекпаев 14", price:"43.0 млн ₸", lat:51.122238, lng:71.501017},
+  {addr:"Астана, Г. Мустафина 21/5", price:"27.7 млн ₸", lat:51.158671, lng:71.507395},
+  {addr:"Астана, Ж. Нажимеденов 39", price:"42.1 млн ₸", lat:51.109224, lng:71.541174},
+  {addr:"Алматы, мкр. Аксай-4, 16", price:"43.8 млн ₸", lat:43.232034, lng:76.836912},
+  {addr:"Алматы, Клочкова 166", price:"57.0 млн ₸", lat:43.229499, lng:76.904134},
+  {addr:"Алматы, Н. Каппарова 38", price:"217.3 млн ₸", lat:43.212936, lng:76.944434},
+];
+let protoMap = null;
+function initProtoMap(){
+  if(typeof L === "undefined") return;            // Leaflet CDN unavailable offline
+  if(protoMap){ setTimeout(()=>protoMap.invalidateSize(), 60); return; }
+  protoMap = L.map("protoMap", {scrollWheelZoom:false, attributionControl:true});
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom:18, attribution:"© OpenStreetMap"
+  }).addTo(protoMap);
+  const group = [];
+  PROTO_FLATS.forEach((f,i)=>{
+    const icon = L.divIcon({className:"", html:`<div class="price-pin${i===0?" sel":""}">${f.price}</div>`,
+      iconSize:null, iconAnchor:[0,0]});
+    const m = L.marker([f.lat, f.lng], {icon}).addTo(protoMap);
+    m.bindPopup(`<b>${f.addr}</b><br>${f.price}`);
+    m.on("click", ()=>{ showScreen("object"); });
+    group.push([f.lat, f.lng]);
+  });
+  protoMap.fitBounds(group, {padding:[24,24]});
+  setTimeout(()=>protoMap.invalidateSize(), 60);
+}
 
 showPage(1);
 </script>
