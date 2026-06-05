@@ -36,17 +36,22 @@ open resale/report/index.html      # обзорный дашборд (3-page alb
 open resale/report/index1.html     # финальный дашборд для питча
 ```
 
-### View the dashboard online (GitHub Pages)
+### View the dashboard online (no clone, no setup)
 
-The `report/` folder is published automatically by `.github/workflows/pages.yml`.
-After enabling Pages once (repo **Settings → Pages → Source: GitHub Actions**), the
-dashboards open in any browser:
+The final pitch dashboard renders directly from the committed HTML — click to open
+in any browser (no install, no GitHub Pages toggle required):
+
+- **Final pitch dashboard:** https://htmlpreview.github.io/?https://github.com/gulikz/resale/blob/main/report/index1.html
+- **Overview dashboard:** https://htmlpreview.github.io/?https://github.com/gulikz/resale/blob/main/report/index.html
+
+The two dashboards are cross-linked (header button «Финальный дашборд →» /
+«← Обзорный дашборд»), so you can switch between them with one click.
+
+GitHub Pages alternative (after enabling once: repo **Settings → Pages → Source:
+GitHub Actions**, published by `.github/workflows/pages.yml`):
 
 - Overview: `https://gulikz.github.io/resale/`
 - Final pitch dashboard: `https://gulikz.github.io/resale/index1.html`
-
-No-setup alternative (renders the committed HTML directly):
-`https://htmlpreview.github.io/?https://github.com/gulikz/resale/blob/main/report/index1.html`
 
 ### Run with Docker (full stack)
 
@@ -70,7 +75,7 @@ python -m venv .venv
 .venv\Scripts\activate            # Windows  (source .venv/bin/activate на *nix)
 pip install -r requirements.txt
 uvicorn app.main:app --reload     # http://localhost:8000
-pytest                            # 14 тестов
+pytest                            # 16 тестов
 ```
 
 Frontend (Node.js 18+):
@@ -86,7 +91,7 @@ npm run build && npm test
 
 - Catalog, filters (city, rooms, price, income cap, geotag, ИИН-region fallback), list/map toggle,
   object card: implemented in `web/` and `report/`.
-- Object detail modal with tabs (Обзор, Сравнение цен, GenAI отчёт, Калькулятор, Оставить заявку):
+- Object detail modal with tabs (Обзор — с встроенным AI-отчётом, Сравнение цен, Калькулятор, Оставить заявку):
   implemented in `web/src/components/ObjectModal.tsx`.
 - Map view with pins: `web/src/components/MapView.tsx`. Google Maps embed when
   `VITE_GOOGLE_MAPS_API_KEY` is set; self-contained SVG fallback (offline demo) otherwise.
