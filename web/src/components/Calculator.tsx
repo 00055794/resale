@@ -10,12 +10,20 @@ type Props = {
  * Mortgage calculator with co-borrower support and multi-bank comparison.
  *
  * Calls POST /calc/mortgage. The backend returns one scenario per bank plus a
- * debt-to-income affordable payment cap that accounts for the co-borrower income.
- * HalykBank (the best offer) is highlighted in the results table.
+ * debt-to-income (КДН) affordable payment cap that accounts for the co-borrower
+ * income. HalykBank (lowest effective rate) is highlighted in the results table.
+ *
+ * Input ranges follow HalykBank's standard mortgage product: minimum down
+ * payment 20%, maximum term 20 years — so moving a slider always changes the
+ * HalykBank result rather than being silently capped by the backend.
  */
 export default function Calculator({ objectPrice }: Props) {
-  const [downPct, setDownPct] = useState(20);
-  const [termYears, setTermYears] = useState(20);
+  const HALYK_MIN_DOWN_PCT = 20;
+  const HALYK_MAX_TERM_YEARS = 20;
+  const DTI = 0.5; // КДН cap used for the affordability verdict.
+
+  const [downPct, setDownPct] = useState(HALYK_MIN_DOWN_PCT);
+  const [termYears, setTermYears] = useState(HALYK_MAX_TERM_YEARS);
   const [income, setIncome] = useState(850000);
   const [coIncome, setCoIncome] = useState(0);
   const [result, setResult] = useState<MortgageResult | null>(null);
@@ -24,7 +32,10 @@ export default function Calculator({ objectPrice }: Props) {
 
   const downPayment = Math.round((objectPrice * downPct) / 100);
 
-  const run = () => {
+  // Calculate on mount and whenever any input changes, so the table and the
+  // affordability verdict (income + co-borrower) always reflect the controls.
+  useEffect(() => {
+    let cancelled = false;
     setLoading(true);
     setError(null);
     calcMortgage({
@@ -34,29 +45,12 @@ export default function Calculator({ objectPrice }: Props) {
       income_kzt_month: income,
       coborrower_income_kzt_month: coIncome,
     })
-      .then(setResult)
-      .catch((e) => setError(String(e)))
-      .finally(() => setLoading(false));
-  };
-
-  // Once a result exists, keep it in sync as any input changes so the
-  // affordability verdict (income + co-borrower) updates live.
-  useEffect(() => {
-    if (!result) return;
-    let cancelled = false;
-    calcMortgage({
-      object_price: objectPrice,
-      down_payment: downPayment,
-      term_months: termYears * 12,
-      income_kzt_month: income,
-      coborrower_income_kzt_month: coIncome,
-    })
       .then((r) => !cancelled && setResult(r))
-      .catch((e) => !cancelled && setError(String(e)));
+      .catch((e) => !cancelled && setError(String(e)))
+      .finally(() => !cancelled && setLoading(false));
     return () => {
       cancelled = true;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [objectPrice, downPayment, termYears, income, coIncome]);
 
   return (
@@ -66,7 +60,7 @@ export default function Calculator({ objectPrice }: Props) {
           Первоначальный взнос: {downPct}% ({formatKzt(downPayment)})
           <input
             type="range"
-            min={10}
+            min={HALYK_MIN_DOWN_PCT}
             max={50}
             value={downPct}
             onChange={(e) => setDownPct(Number(e.target.value))}
@@ -77,7 +71,7 @@ export default function Calculator({ objectPrice }: Props) {
           <input
             type="range"
             min={5}
-            max={25}
+            max={HALYK_MAX_TERM_YEARS}
             value={termYears}
             onChange={(e) => setTermYears(Number(e.target.value))}
           />
@@ -99,9 +93,7 @@ export default function Calculator({ objectPrice }: Props) {
           />
         </label>
       </div>
-      <button className="btn primary" onClick={run} disabled={loading}>
-        {loading ? "Расчёт..." : "Рассчитать"}
-      </button>
+      {loading && <p className="muted">Расчёт…</p>}
       {error && <p role="alert">Ошибка: {error}</p>}
 
       {result && (
@@ -110,25 +102,36 @@ export default function Calculator({ objectPrice }: Props) {
             const halyk =
               result.scenarios.find((s) => s.bank_code === result.best_bank) ??
               result.scenarios[0];
+            const totalIncome = income + coIncome;
             const fits = halyk.monthly_payment <= result.affordable_monthly_payment;
+            const kdn = totalIncome > 0 ? halyk.monthly_payment / totalIncome : 0;
+            const minIncome = halyk.monthly_payment / DTI;
             return (
-              <div className={`afford-verdict ${fits ? "ok" : "warn"}`}>
-                <p>
-                  Платёж HalykBank: <strong>{formatKzt(halyk.monthly_payment)}</strong> / мес ·
-                  доступно по доходу: <strong>{formatKzt(result.affordable_monthly_payment)}</strong>
-                </p>
+              <>
+                <div className={`afford-verdict ${fits ? "ok" : "warn"}`}>
+                  <p>
+                    Платёж HalykBank: <strong>{formatKzt(halyk.monthly_payment)}</strong> / мес ·
+                    доступно по доходу (КДН {Math.round(DTI * 100)}%):{" "}
+                    <strong>{formatKzt(result.affordable_monthly_payment)}</strong>
+                  </p>
+                  <p className="muted">
+                    {fits
+                      ? `✓ Платёж укладывается в доход. Долговая нагрузка (КДН) ${formatPct(kdn)}.`
+                      : `✗ Платёж превышает лимит (КДН ${formatPct(
+                          kdn,
+                        )}). Увеличьте взнос/срок или добавьте созаёмщика. Минимальный доход: ${formatKzt(
+                          minIncome,
+                        )}.`}
+                  </p>
+                </div>
                 <p className="muted">
-                  {fits
-                    ? "✓ Платёж укладывается в ваш доход (с учётом созаёмщика)."
-                    : "✗ Платёж превышает доступный лимит. Увеличьте взнос, срок или доход/созаёмщика."}
+                  Платёж зависит от взноса, срока и ставки. Доход и доход созаёмщика
+                  определяют доступный лимит (КДН), а не сам платёж. Лимиты HalykBank:
+                  взнос от {HALYK_MIN_DOWN_PCT}%, срок до {HALYK_MAX_TERM_YEARS} лет.
                 </p>
-              </div>
+              </>
             );
           })()}
-          <p className="muted">
-            Размер платежа зависит от взноса, срока и ставки. Доход и доход созаёмщика
-            определяют доступный лимит платежа (приемлемость), а не сам платёж.
-          </p>
           <table className="banks-table">
             <thead>
               <tr>

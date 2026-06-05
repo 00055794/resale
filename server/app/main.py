@@ -229,7 +229,9 @@ def calc_mortgage(req: MortgageRequest) -> dict[str, Any]:
         for b in banks()["banks"]
     ]
     cap = max_affordable_payment(req.income_kzt_month, req.coborrower_income_kzt_month)
-    best = min(scenarios, key=lambda s: s.monthly_payment)
+    # "Best" = lowest true cost of borrowing (ГЭСВ), not the lowest nominal
+    # payment, which a higher mandatory down payment or shorter term could distort.
+    best = min(scenarios, key=lambda s: s.effective_annual_rate)
     return {
         "affordable_monthly_payment": round(cap, 2),
         "best_bank": best.bank_code,
