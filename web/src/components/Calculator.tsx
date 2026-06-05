@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { calcMortgage, type MortgageResult } from "../api";
 import { formatKzt, formatPct } from "../format";
 
@@ -38,6 +38,26 @@ export default function Calculator({ objectPrice }: Props) {
       .catch((e) => setError(String(e)))
       .finally(() => setLoading(false));
   };
+
+  // Once a result exists, keep it in sync as any input changes so the
+  // affordability verdict (income + co-borrower) updates live.
+  useEffect(() => {
+    if (!result) return;
+    let cancelled = false;
+    calcMortgage({
+      object_price: objectPrice,
+      down_payment: downPayment,
+      term_months: termYears * 12,
+      income_kzt_month: income,
+      coborrower_income_kzt_month: coIncome,
+    })
+      .then((r) => !cancelled && setResult(r))
+      .catch((e) => !cancelled && setError(String(e)));
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [objectPrice, downPayment, termYears, income, coIncome]);
 
   return (
     <div className="calc">
@@ -86,9 +106,28 @@ export default function Calculator({ objectPrice }: Props) {
 
       {result && (
         <div className="calc-result">
+          {(() => {
+            const halyk =
+              result.scenarios.find((s) => s.bank_code === result.best_bank) ??
+              result.scenarios[0];
+            const fits = halyk.monthly_payment <= result.affordable_monthly_payment;
+            return (
+              <div className={`afford-verdict ${fits ? "ok" : "warn"}`}>
+                <p>
+                  Платёж HalykBank: <strong>{formatKzt(halyk.monthly_payment)}</strong> / мес ·
+                  доступно по доходу: <strong>{formatKzt(result.affordable_monthly_payment)}</strong>
+                </p>
+                <p className="muted">
+                  {fits
+                    ? "✓ Платёж укладывается в ваш доход (с учётом созаёмщика)."
+                    : "✗ Платёж превышает доступный лимит. Увеличьте взнос, срок или доход/созаёмщика."}
+                </p>
+              </div>
+            );
+          })()}
           <p className="muted">
-            Доступный платёж по доходу (созаёмщик учтён):{" "}
-            <strong>{formatKzt(result.affordable_monthly_payment)}</strong> в месяц
+            Размер платежа зависит от взноса, срока и ставки. Доход и доход созаёмщика
+            определяют доступный лимит платежа (приемлемость), а не сам платёж.
           </p>
           <table className="banks-table">
             <thead>

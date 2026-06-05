@@ -17,7 +17,7 @@ type Props = {
   onReminder: (text: string) => void;
 };
 
-type Tab = "overview" | "comparison" | "genai" | "calc" | "auction";
+type Tab = "overview" | "comparison" | "calc" | "auction";
 
 export default function ObjectModal({ flat, onClose, onReminder }: Props) {
   const [tab, setTab] = useState<Tab>("overview");
@@ -32,18 +32,20 @@ export default function ObjectModal({ flat, onClose, onReminder }: Props) {
     fetchComparison(flat.id).then(setComparison).catch(() => setComparison(null));
   }, [flat.id]);
 
+  // Investment report is part of the overview, prepared as soon as the object opens.
+  useEffect(() => {
+    setReportLoading(true);
+    fetchGenAIReport(flat.id)
+      .then(setReport)
+      .catch(() => setReport(null))
+      .finally(() => setReportLoading(false));
+  }, [flat.id]);
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [onClose]);
-
-  const loadReport = () => {
-    setReportLoading(true);
-    fetchGenAIReport(flat.id)
-      .then(setReport)
-      .finally(() => setReportLoading(false));
-  };
 
   const submitBid = () => {
     placeBid(flat.id, Number(bid), reentry).then((r) => {
@@ -69,7 +71,6 @@ export default function ObjectModal({ flat, onClose, onReminder }: Props) {
         <div className="modal-head">
           <div>
             <span className="badge green">Проверено банком</span>{" "}
-            {flat.bank_checked && <span className="badge green">Проверено GenAI</span>}{" "}
             <span className="badge yellow">-{disc}% к рынку</span>
             <h2>{flat.address}</h2>
             <p className="muted">
@@ -87,7 +88,6 @@ export default function ObjectModal({ flat, onClose, onReminder }: Props) {
             [
               ["overview", "Обзор"],
               ["comparison", "Сравнение цен"],
-              ["genai", "GenAI отчёт"],
               ["calc", "Калькулятор"],
               ["auction", "Оставить заявку"],
             ] as [Tab, string][]
@@ -97,10 +97,7 @@ export default function ObjectModal({ flat, onClose, onReminder }: Props) {
               role="tab"
               aria-selected={tab === key}
               className={`tab ${tab === key ? "tab-active" : ""}`}
-              onClick={() => {
-                setTab(key);
-                if (key === "genai" && !report && !reportLoading) loadReport();
-              }}
+              onClick={() => setTab(key)}
             >
               {label}
             </button>
@@ -134,6 +131,12 @@ export default function ObjectModal({ flat, onClose, onReminder }: Props) {
                 Объект находится на балансе банка и проверен. Документы подготовлены,
                 история залога прозрачна.
               </p>
+              {reportLoading && <p className="muted">Готовим инвестиционный анализ…</p>}
+              {report && (
+                <div className="genai-report">
+                  <p>{report.report}</p>
+                </div>
+              )}
             </div>
           )}
 
@@ -175,23 +178,6 @@ export default function ObjectModal({ flat, onClose, onReminder }: Props) {
                     </tbody>
                   </table>
                 </>
-              )}
-            </div>
-          )}
-
-          {tab === "genai" && (
-            <div>
-              {reportLoading && <p>Готовим инвестиционный отчёт...</p>}
-              {report && (
-                <div className="genai-report">
-                  <p className="muted">Модель: {report.model}</p>
-                  <p>{report.report}</p>
-                </div>
-              )}
-              {!report && !reportLoading && (
-                <button className="btn primary" onClick={loadReport}>
-                  Сформировать отчёт
-                </button>
               )}
             </div>
           )}
